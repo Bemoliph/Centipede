@@ -1,0 +1,48 @@
+
+sprite_sheet.png
+size: 64,16
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bullet
+  rotate: false
+  xy: 51, 4
+  size: 1, 6
+  orig: 1, 6
+  offset: 0, 0
+  index: -1
+mushroom100
+  rotate: false
+  xy: 32, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+mushroom25
+  rotate: false
+  xy: 2, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+mushroom50
+  rotate: false
+  xy: 12, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+mushroom75
+  rotate: false
+  xy: 22, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 42, 2
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
