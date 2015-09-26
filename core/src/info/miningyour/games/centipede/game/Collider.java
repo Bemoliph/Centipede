@@ -28,6 +28,9 @@ public class Collider {
     }
 
     public void update() {
+        /*
+         * TODO: Allow for updating individual objects without full clears
+         */
         collisionTree.clear();
         for (GameObject obj : objects) {
             collisionTree.insert(obj);
@@ -43,9 +46,5 @@ public class Collider {
                 obj.onCollision(candidate);
             }
         }
-    }
-
-    public QuadTree getCollisionTree() {
-        return collisionTree;
     }
 }

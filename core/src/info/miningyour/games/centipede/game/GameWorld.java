@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 import info.miningyour.games.centipede.utils.Event;
 import info.miningyour.games.centipede.utils.EventListener;
 import info.miningyour.games.centipede.utils.EventPump;
-import info.miningyour.games.centipede.utils.QuadTree;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,15 +32,11 @@ public class GameWorld implements EventListener {
         EventPump.subscribe(Event.Spawn, this);
         EventPump.subscribe(Event.Death, this);
 
-        spawnPlayer(16, 16);
-
-        mushroomCount = 0;
-        populateMushrooms(45 - rng.nextInt(5));
-    }
-
-    private void spawnPlayer(float x, float y) {
         player = new Player(16, 16);
         bullet = new Bullet(player);
+
+        mushroomCount = 0;
+        populateMushrooms(50 - rng.nextInt(5));
     }
 
     private boolean isMushroomAt(float x, float y) {
@@ -90,26 +85,13 @@ public class GameWorld implements EventListener {
 
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Bullet getBullet() {
-        return bullet;
-    }
-
     public void update(float deltaTime) {
         player.update(deltaTime);
         bullet.update(deltaTime);
 
-        //collider.update(player);
         collider.update();
         collider.collide(player);
         collider.collide(bullet);
-    }
-
-    public QuadTree getCollisionTree() {
-        return collider.getCollisionTree();
     }
 
     @Override

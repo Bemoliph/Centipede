@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 import info.miningyour.games.centipede.game.GameObject;
 import info.miningyour.games.centipede.utils.AssetLoader;
 import info.miningyour.games.centipede.utils.Event;
@@ -23,9 +24,9 @@ public class GameRenderer implements EventListener {
 
     private ArrayList<Animated> animatedObjects = new ArrayList<Animated>();
 
-    public GameRenderer(int gameWidth, int gameHeight) {
+    public GameRenderer(Rectangle bounds) {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, gameWidth, gameHeight);
+        camera.setToOrtho(false, bounds.getWidth(), bounds.getHeight());
 
         shapes = new ShapeRenderer();
         shapes.setProjectionMatrix(camera.combined);

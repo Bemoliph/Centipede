@@ -42,6 +42,10 @@ public class Bullet extends GameObject implements EventListener {
         alignToPlayer();
     }
 
+    public boolean isFired() {
+        return isFired;
+    }
+
     @Override
     public void update(float deltaTime) {
         if (shouldFire && !isFired()) {
@@ -66,10 +70,6 @@ public class Bullet extends GameObject implements EventListener {
             obj.damage();
             this.reset();
         }
-    }
-
-    public boolean isFired() {
-        return isFired;
     }
 
     @Override
