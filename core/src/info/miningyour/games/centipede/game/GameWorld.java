@@ -5,6 +5,7 @@ import info.miningyour.games.centipede.utils.Event;
 import info.miningyour.games.centipede.utils.EventListener;
 import info.miningyour.games.centipede.utils.EventPump;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -16,10 +17,10 @@ public class GameWorld implements EventListener {
     private List<GameObject> gameObjects;
     private Collider collider;
 
+    private HashMap<String, Integer> spawnCounts;
     private Player player;
     private Bullet bullet;
 
-    private int mushroomCount;
     private static final int mushroomSize = 8;
 
     public GameWorld(Rectangle bounds) {
@@ -32,17 +33,18 @@ public class GameWorld implements EventListener {
         EventPump.subscribe(Event.Spawn, this);
         EventPump.subscribe(Event.Death, this);
 
+        spawnCounts = new HashMap<String, Integer>();
+
         player = new Player(16, 16);
         bullet = new Bullet(player);
 
-        mushroomCount = 0;
         populateMushrooms(50 - rng.nextInt(5));
     }
 
     private boolean isMushroomAt(float x, float y) {
-        for (GameObject obj : gameObjects) {
-            if (obj instanceof Mushroom) {
-                Mushroom mushroom = (Mushroom) obj;
+        for (GameObject gameObj : gameObjects) {
+            if (gameObj instanceof Mushroom) {
+                Mushroom mushroom = (Mushroom) gameObj;
 
                 if (mushroom.getX() == x && mushroom.getY() == y) {
                     return true;
@@ -53,24 +55,30 @@ public class GameWorld implements EventListener {
         return false;
     }
 
-    public void spawnMushroom(float x, float y) {
-        Mushroom mushroom = new Mushroom(x, y);
-        mushroomCount++;
-    }
-
     private void populateMushrooms(int populationCount) {
-        while (mushroomCount < populationCount) {
+        while (spawnCounts.getOrDefault("mushroom", 0) < populationCount) {
             int x = mushroomSize * rng.nextInt((int) bounds.width / mushroomSize);
             int y = mushroomSize * (rng.nextInt((int) bounds.height / mushroomSize - 4) + 4);
 
             if (!isMushroomAt(x, y)) {
-                spawnMushroom(x, y);
+                new Mushroom(x, y);
             }
         }
     }
 
-    public void spawnFlea(float x, float y) {
+    private boolean shouldSpawnFlea() {
+        return spawnCounts.getOrDefault("mushroom", 0) < 50
+               && spawnCounts.getOrDefault("flea", 0) == 0;
+        //&& 1 < level;
+    }
 
+    public void spawnFlea() {
+        int x = mushroomSize * rng.nextInt((int) bounds.width / mushroomSize);
+        int y = mushroomSize * 31;
+
+        int mushroomCount = 50 - spawnCounts.getOrDefault("mushroom", mushroomSize) + rng.nextInt(3);
+
+        Flea flea = new Flea(x, y, mushroomCount);
     }
 
     public void spawnSpider(float x, float y) {
@@ -86,27 +94,40 @@ public class GameWorld implements EventListener {
     }
 
     public void update(float deltaTime) {
-        player.update(deltaTime);
-        bullet.update(deltaTime);
+        for (GameObject gameObj : gameObjects) {
+            gameObj.update(deltaTime);
+        }
 
         collider.update();
         collider.collide(player);
         collider.collide(bullet);
     }
 
+    private void onSpawn(GameObject gameObj) {
+        gameObjects.add(gameObj);
+        collider.add(gameObj);
+        spawnCounts.put(gameObj.getName(), spawnCounts.getOrDefault(gameObj.getName(), 0) + 1);
+    }
+
+    private void onDeath(GameObject gameObj) {
+        gameObjects.remove(gameObj);
+        collider.remove(gameObj);
+        spawnCounts.put(gameObj.getName(), spawnCounts.get(gameObj.getName()) - 1);
+
+        if (shouldSpawnFlea()) {
+            spawnFlea();
+        }
+    }
+
     @Override
     public void onEvent(Event event, Object obj) {
-        GameObject gameObj = (GameObject) obj;
-
         switch (event) {
             case Spawn:
-                gameObjects.add(gameObj);
-                collider.add(gameObj);
+                onSpawn((GameObject) obj);
                 break;
 
             case Death:
-                gameObjects.remove(gameObj);
-                collider.remove(gameObj);
+                onDeath((GameObject) obj);
                 break;
         }
     }

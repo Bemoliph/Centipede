@@ -50,8 +50,8 @@ public class QuadTree {
         nodes[3] = new QuadTree(new Rectangle(x + subWidth, y + subHeight, subWidth, subHeight), depth + 1, this);
     }
 
-    private int getIndexForObject(GameObject obj) {
-        return getIndexForObject(obj.getBoundingBox());
+    private int getIndexForObject(GameObject gameObj) {
+        return getIndexForObject(gameObj.getBoundingBox());
     }
 
     private int getIndexForObject(Rectangle rect) {
@@ -119,17 +119,17 @@ public class QuadTree {
         }
     }
 
-    public void insert(GameObject obj) {
+    public void insert(GameObject gameObj) {
         if (hasSubtrees()) {
-            int index = getIndexForObject(obj);
+            int index = getIndexForObject(gameObj);
 
             if (fitsInSubtree(index)) {
-                nodes[index].insert(obj);
+                nodes[index].insert(gameObj);
                 return;
             }
         }
 
-        items.add(obj);
+        items.add(gameObj);
 
         if (isOverfilled() && !isMaxDepth()) {
             if (!hasSubtrees()) {
@@ -140,9 +140,9 @@ public class QuadTree {
         }
     }
 
-    public List<GameObject> retrieve(List<GameObject> selectedItems, GameObject obj) {
-        retrieve(selectedItems, obj.getBoundingBox());
-        selectedItems.remove(obj); // Don't collide with self
+    public List<GameObject> retrieve(List<GameObject> selectedItems, GameObject gameObj) {
+        retrieve(selectedItems, gameObj.getBoundingBox());
+        selectedItems.remove(gameObj); // Don't collide with self
 
         return selectedItems;
     }

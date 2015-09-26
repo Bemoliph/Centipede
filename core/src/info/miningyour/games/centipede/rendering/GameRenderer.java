@@ -57,14 +57,14 @@ public class GameRenderer implements EventListener {
         batcher.begin();
 
         batcher.enableBlending();
-        for (Animated obj : animatedObjects) {
-            Animation anim = AssetLoader.getAnimation(obj.getAnimationName());
+        for (Animated animObj : animatedObjects) {
+            Animation anim = AssetLoader.getAnimation(animObj.getAnimationName());
             batcher.draw(anim.getKeyFrame(runTime),
-                         obj.getX(), obj.getY(),
-                         obj.getWidth() / 2.0f, obj.getHeight() / 2.0f,
-                         obj.getWidth(), obj.getHeight(),
-                         obj.getScaleX(), obj.getScaleY(),
-                         obj.getRotation());
+                         animObj.getX(), animObj.getY(),
+                         animObj.getWidth() / 2.0f, animObj.getHeight() / 2.0f,
+                         animObj.getWidth(), animObj.getHeight(),
+                         animObj.getScaleX(), animObj.getScaleY(),
+                         animObj.getRotation());
         }
 
         batcher.end();

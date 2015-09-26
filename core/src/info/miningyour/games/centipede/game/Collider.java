@@ -17,13 +17,13 @@ public class Collider {
         candidates = new ArrayList<GameObject>();
     }
 
-    public void add(GameObject obj) {
-        objects.add(obj);
-        collisionTree.insert(obj);
+    public void add(GameObject gameObj) {
+        objects.add(gameObj);
+        collisionTree.insert(gameObj);
     }
 
-    public void remove(GameObject obj) {
-        objects.remove(obj);
+    public void remove(GameObject gameObj) {
+        objects.remove(gameObj);
         update();
     }
 
@@ -32,18 +32,18 @@ public class Collider {
          * TODO: Allow for updating individual objects without full clears
          */
         collisionTree.clear();
-        for (GameObject obj : objects) {
-            collisionTree.insert(obj);
+        for (GameObject gameObj : objects) {
+            collisionTree.insert(gameObj);
         }
     }
 
-    public void collide(GameObject obj) {
+    public void collide(GameObject gameObj) {
         candidates.clear();
-        collisionTree.retrieve(candidates, obj);
+        collisionTree.retrieve(candidates, gameObj);
 
         for (GameObject candidate : candidates) {
-            if (obj.collidesWith(candidate)) {
-                obj.onCollision(candidate);
+            if (gameObj.collidesWith(candidate)) {
+                gameObj.onCollision(candidate);
             }
         }
     }

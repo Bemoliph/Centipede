@@ -10,7 +10,7 @@ public class Mushroom extends GameObject {
                                                     "mushroom100"};
 
     public Mushroom(float x, float y) {
-        super("mushroom", new Rectangle(x, y, 8, 8), animationNames.length);
+        super("mushroom", "mushroom", new Rectangle(x, y, 8, 8), animationNames.length);
 
         updateAnimationName();
     }

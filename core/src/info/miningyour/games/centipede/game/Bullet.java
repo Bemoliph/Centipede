@@ -15,7 +15,7 @@ public class Bullet extends GameObject implements EventListener {
     private int maxY;
 
     public Bullet(Player player) {
-        super("bullet", new Rectangle(0, 0, 1, 6), 1);
+        super("bullet", "bullet", new Rectangle(0, 0, 1, 6), 1);
 
         this.player = player;
         this.shouldFire = false;
@@ -65,9 +65,9 @@ public class Bullet extends GameObject implements EventListener {
     }
 
     @Override
-    public void onCollision(GameObject obj) {
-        if (isFired() && !(obj instanceof Player)) {
-            obj.damage();
+    public void onCollision(GameObject gameObj) {
+        if (isFired() && !(gameObj instanceof Player)) {
+            gameObj.damage();
             this.reset();
         }
     }

@@ -9,6 +9,8 @@ import info.miningyour.games.centipede.utils.EventPump;
 
 public abstract class GameObject implements Animated {
 
+    protected String name;
+
     protected String animationName;
     protected boolean isVisible;
 
@@ -20,7 +22,9 @@ public abstract class GameObject implements Animated {
     protected int currentHP;
     protected int maxHP;
 
-    public GameObject(String spriteName, Rectangle boundingBox, int hp) {
+    public GameObject(String name, String spriteName, Rectangle boundingBox, int hp) {
+        this.name = name;
+
         this.animationName = spriteName;
         this.isVisible = true;
 
@@ -35,6 +39,10 @@ public abstract class GameObject implements Animated {
         EventPump.publish(Event.Spawn, this);
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void update(float deltaTime) {
     }
 
@@ -42,11 +50,11 @@ public abstract class GameObject implements Animated {
         return boundingBox;
     }
 
-    public boolean collidesWith(GameObject obj) {
-        return Intersector.overlaps(obj.getBoundingBox(), boundingBox);
+    public boolean collidesWith(GameObject gameObj) {
+        return Intersector.overlaps(gameObj.getBoundingBox(), boundingBox);
     }
 
-    public void onCollision(GameObject obj) {
+    public void onCollision(GameObject gameObj) {
     }
 
     public boolean isAlive() {

@@ -11,6 +11,20 @@ bullet
   orig: 1, 6
   offset: 0, 0
   index: -1
+flea
+  rotate: false
+  xy: 42, 2
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 42, 2
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
 mushroom100
   rotate: false
   xy: 32, 2
@@ -37,12 +51,5 @@ mushroom75
   xy: 22, 2
   size: 8, 8
   orig: 8, 8
-  offset: 0, 0
-  index: -1
-player
-  rotate: false
-  xy: 42, 2
-  size: 7, 8
-  orig: 7, 8
   offset: 0, 0
   index: -1
