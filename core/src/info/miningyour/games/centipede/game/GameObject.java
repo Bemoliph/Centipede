@@ -11,12 +11,16 @@ public abstract class GameObject implements Animated {
     protected String animationName;
     protected boolean isVisible;
 
-    private Rectangle boundingBox;
+    protected Rectangle boundingBox;
     protected Vector2 velocity;
     protected float rotation;
     protected float scale;
 
-    public GameObject(String spriteName, Rectangle boundingBox) {
+    protected int currentHP;
+    protected int maxHP;
+    protected GameObjectCommand onDie;
+
+    public GameObject(String spriteName, Rectangle boundingBox, int hp) {
         this.animationName = spriteName;
         this.isVisible = true;
 
@@ -24,6 +28,9 @@ public abstract class GameObject implements Animated {
         this.velocity = new Vector2();
         this.rotation = 0.0f;
         this.scale = 1.0f;
+
+        this.currentHP = hp;
+        this.maxHP = hp;
 
         GameRenderer.animatedObjects.add(this);
     }
@@ -35,14 +42,32 @@ public abstract class GameObject implements Animated {
         return boundingBox;
     }
 
-    public boolean collides(GameObject obj) {
+    public boolean collidesWith(GameObject obj) {
         return Intersector.overlaps(obj.getBoundingBox(), boundingBox);
     }
 
     public void onCollision(GameObject obj) {
     }
 
-    public void onDamage() {
+    public boolean isAlive() {
+        return 0 < currentHP;
+    }
+
+    public void damage() {
+        currentHP--;
+
+        if (!isAlive()) {
+            die();
+        }
+    }
+
+    public void setOnDie(GameObjectCommand onDie) {
+        this.onDie = onDie;
+    }
+
+    public void die() {
+        onDie.run(this);
+        GameRenderer.animatedObjects.remove(this);
     }
 
     @Override

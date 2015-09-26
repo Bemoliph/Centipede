@@ -4,36 +4,30 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Mushroom extends GameObject {
 
-    private static final String[] animationNames = {"mushroom100",
-                                                    "mushroom75",
+    private static final String[] animationNames = {"mushroom25",
                                                     "mushroom50",
-                                                    "mushroom25"};
-
-    private int currentHP;
-    private static final int maxHP = animationNames.length;
+                                                    "mushroom75",
+                                                    "mushroom100"};
 
     public Mushroom(float x, float y) {
-        super("mushroom", new Rectangle(x, y, 8, 8));
-
-        currentHP = 0;
+        super("mushroom", new Rectangle(x, y, 8, 8), animationNames.length);
 
         updateAnimationName();
     }
 
     private void updateAnimationName() {
-        animationName = animationNames[currentHP];
-    }
-
-    public boolean isAlive() {
-        return currentHP < maxHP;
+        animationName = animationNames[currentHP - 1];
     }
 
     @Override
-    public void onDamage() {
-        currentHP++;
+    public void damage() {
+        currentHP--;
 
         if (isAlive()) {
             updateAnimationName();
+        }
+        else {
+            die();
         }
     }
 }

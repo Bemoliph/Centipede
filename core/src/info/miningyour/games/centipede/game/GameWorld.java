@@ -65,6 +65,15 @@ public class GameWorld {
 
     public void spawnMushroom(float x, float y) {
         Mushroom mushroom = new Mushroom(x, y);
+        mushroom.setOnDie(new GameObjectCommand() {
+
+            @Override
+            public void run(GameObject obj) {
+                gameObjects.remove(obj);
+                collider.remove(obj);
+
+            }
+        });
 
         gameObjects.add(mushroom);
         collider.add(mushroom);

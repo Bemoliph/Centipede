@@ -15,7 +15,7 @@ public class Player extends GameObject implements Observer {
     private int maxY;
 
     public Player(float x, float y) {
-        super("player", new Rectangle(x, y, 7, 8));
+        super("player", new Rectangle(x, y, 7, 8), 1);
 
         minX = 0;
         maxX = 240 - getWidth();

@@ -14,7 +14,7 @@ public class Bullet extends GameObject implements Observer {
     private int maxY;
 
     public Bullet(Player player) {
-        super("bullet", new Rectangle(0, 0, 1, 6));
+        super("bullet", new Rectangle(0, 0, 1, 6), 1);
 
         this.player = player;
         this.shouldFire = false;
@@ -60,7 +60,7 @@ public class Bullet extends GameObject implements Observer {
     @Override
     public void onCollision(GameObject obj) {
         if (isFired() && !(obj instanceof Player)) {
-            obj.onDamage();
+            obj.damage();
             this.reset();
         }
     }

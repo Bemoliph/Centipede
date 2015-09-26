@@ -39,7 +39,7 @@ public class Collider {
         collisionTree.retrieve(candidates, obj);
 
         for (GameObject candidate : candidates) {
-            if (obj.collides(candidate)) {
+            if (obj.collidesWith(candidate)) {
                 obj.onCollision(candidate);
             }
         }
