@@ -1,12 +1,15 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
+import info.miningyour.games.centipede.utils.Event;
+import info.miningyour.games.centipede.utils.EventListener;
+import info.miningyour.games.centipede.utils.EventPump;
 import info.miningyour.games.centipede.utils.QuadTree;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GameWorld {
+public class GameWorld implements EventListener {
 
     private Rectangle bounds;
 
@@ -27,6 +30,9 @@ public class GameWorld {
         gameObjects = new ArrayList<GameObject>();
         collider = new Collider(bounds);
 
+        EventPump.subscribe(Event.Spawn, this);
+        EventPump.subscribe(Event.Death, this);
+
         spawnPlayer(16, 16);
 
         mushroomCount = 0;
@@ -35,18 +41,7 @@ public class GameWorld {
 
     private void spawnPlayer(float x, float y) {
         player = new Player(16, 16);
-
-        gameObjects.add(player);
-        collider.add(player);
-
-        spawnBullet(player);
-    }
-
-    private void spawnBullet(Player player) {
         bullet = new Bullet(player);
-
-        gameObjects.add(bullet);
-        collider.add(bullet);
     }
 
     private boolean isMushroomAt(float x, float y) {
@@ -65,18 +60,6 @@ public class GameWorld {
 
     public void spawnMushroom(float x, float y) {
         Mushroom mushroom = new Mushroom(x, y);
-        mushroom.setOnDie(new GameObjectCommand() {
-
-            @Override
-            public void run(GameObject obj) {
-                gameObjects.remove(obj);
-                collider.remove(obj);
-
-            }
-        });
-
-        gameObjects.add(mushroom);
-        collider.add(mushroom);
         mushroomCount++;
     }
 
@@ -127,5 +110,22 @@ public class GameWorld {
 
     public QuadTree getCollisionTree() {
         return collider.getCollisionTree();
+    }
+
+    @Override
+    public void onEvent(Event event, Object obj) {
+        GameObject gameObj = (GameObject) obj;
+
+        switch (event) {
+            case Spawn:
+                gameObjects.add(gameObj);
+                collider.add(gameObj);
+                break;
+
+            case Death:
+                gameObjects.remove(gameObj);
+                collider.remove(gameObj);
+                break;
+        }
     }
 }

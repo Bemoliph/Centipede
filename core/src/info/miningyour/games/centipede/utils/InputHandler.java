@@ -2,15 +2,13 @@ package info.miningyour.games.centipede.utils;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import info.miningyour.games.centipede.game.Bullet;
-import info.miningyour.games.centipede.game.Player;
 
 public class InputHandler implements InputProcessor {
 
     private InputState state;
 
-    public InputHandler(Player player, Bullet bullet) {
-        this.state = new InputState(player, bullet);
+    public InputHandler() {
+        this.state = new InputState();
     }
 
     @Override

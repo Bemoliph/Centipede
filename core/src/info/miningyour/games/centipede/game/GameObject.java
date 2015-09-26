@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import info.miningyour.games.centipede.rendering.Animated;
-import info.miningyour.games.centipede.rendering.GameRenderer;
+import info.miningyour.games.centipede.utils.Event;
+import info.miningyour.games.centipede.utils.EventPump;
 
 public abstract class GameObject implements Animated {
 
@@ -18,7 +19,6 @@ public abstract class GameObject implements Animated {
 
     protected int currentHP;
     protected int maxHP;
-    protected GameObjectCommand onDie;
 
     public GameObject(String spriteName, Rectangle boundingBox, int hp) {
         this.animationName = spriteName;
@@ -32,7 +32,7 @@ public abstract class GameObject implements Animated {
         this.currentHP = hp;
         this.maxHP = hp;
 
-        GameRenderer.animatedObjects.add(this);
+        EventPump.publish(Event.Spawn, this);
     }
 
     public void update(float deltaTime) {
@@ -61,13 +61,8 @@ public abstract class GameObject implements Animated {
         }
     }
 
-    public void setOnDie(GameObjectCommand onDie) {
-        this.onDie = onDie;
-    }
-
     public void die() {
-        onDie.run(this);
-        GameRenderer.animatedObjects.remove(this);
+        EventPump.publish(Event.Death, this);
     }
 
     @Override

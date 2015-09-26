@@ -8,27 +8,22 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
-import info.miningyour.games.centipede.game.Bullet;
 import info.miningyour.games.centipede.game.GameObject;
-import info.miningyour.games.centipede.game.GameWorld;
 import info.miningyour.games.centipede.utils.AssetLoader;
+import info.miningyour.games.centipede.utils.Event;
+import info.miningyour.games.centipede.utils.EventListener;
+import info.miningyour.games.centipede.utils.EventPump;
 import java.util.ArrayList;
-import java.util.List;
 
-public class GameRenderer {
-
-    private GameWorld world;
+public class GameRenderer implements EventListener {
 
     private OrthographicCamera camera;
     private ShapeRenderer shapes;
     private SpriteBatch batcher;
 
-    public static final ArrayList<Animated> animatedObjects = new ArrayList<Animated>();
+    private ArrayList<Animated> animatedObjects = new ArrayList<Animated>();
 
-    public GameRenderer(GameWorld world, int gameWidth, int gameHeight) {
-        this.world = world;
-
+    public GameRenderer(int gameWidth, int gameHeight) {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, gameWidth, gameHeight);
 
@@ -37,6 +32,9 @@ public class GameRenderer {
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(camera.combined);
+
+        EventPump.subscribe(Event.Spawn, this);
+        EventPump.subscribe(Event.Death, this);
     }
 
     public void render(float runTime) {
@@ -52,25 +50,6 @@ public class GameRenderer {
 
         shapes.setColor(Color.GREEN);
         shapes.rect(0, 8, 240, 48);
-
-        shapes.setColor(Color.MAGENTA);
-        List<GameObject> selectedObjects = new ArrayList<GameObject>();
-        world.getCollisionTree().retrieve(selectedObjects, world.getPlayer());
-        for (GameObject obj : selectedObjects) {
-            Rectangle rect = obj.getBoundingBox();
-            shapes.rect(rect.x, rect.y, rect.width, rect.height);
-        }
-
-        Bullet bullet = world.getBullet();
-        if (bullet.isFired()) {
-            shapes.setColor(Color.YELLOW);
-            selectedObjects.clear();
-            world.getCollisionTree().retrieve(selectedObjects, bullet);
-            for (GameObject obj : selectedObjects) {
-                Rectangle rect = obj.getBoundingBox();
-                shapes.rect(rect.x, rect.y, rect.width, rect.height);
-            }
-        }
 
         shapes.end();
 
@@ -88,11 +67,20 @@ public class GameRenderer {
         }
 
         batcher.end();
-
-        shapes.begin(ShapeType.Line);
-        shapes.setColor(Color.RED);
-        world.getCollisionTree().render(shapes);
-        shapes.end();
     }
 
+    @Override
+    public void onEvent(Event event, Object obj) {
+        GameObject gameObj = (GameObject) obj;
+
+        switch (event) {
+            case Spawn:
+                animatedObjects.add(gameObj);
+                break;
+
+            case Death:
+                animatedObjects.remove(gameObj);
+                break;
+        }
+    }
 }

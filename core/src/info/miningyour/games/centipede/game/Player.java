@@ -1,11 +1,12 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
+import info.miningyour.games.centipede.utils.Event;
+import info.miningyour.games.centipede.utils.EventListener;
+import info.miningyour.games.centipede.utils.EventPump;
 import info.miningyour.games.centipede.utils.InputState;
-import java.util.Observable;
-import java.util.Observer;
 
-public class Player extends GameObject implements Observer {
+public class Player extends GameObject implements EventListener {
 
     private static final int speed = 128;
 
@@ -21,6 +22,8 @@ public class Player extends GameObject implements Observer {
         maxX = 240 - getWidth();
         minY = 8;
         maxY = minY + 6 * 8 - getHeight();
+
+        EventPump.subscribe(Event.Input, this);
     }
 
     @Override
@@ -30,14 +33,9 @@ public class Player extends GameObject implements Observer {
     }
 
     @Override
-    public void onCollision(GameObject obj) {
-
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof InputState) {
-            InputState state = (InputState) o;
+    public void onEvent(Event event, Object obj) {
+        if (event == Event.Input && obj instanceof InputState) {
+            InputState state = (InputState) obj;
 
             velocity.x = state.getMoveRight() ? 1 : 0;
             velocity.x -= state.getMoveLeft() ? 1 : 0;

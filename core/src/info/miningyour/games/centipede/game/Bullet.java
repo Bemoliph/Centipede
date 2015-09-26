@@ -1,11 +1,12 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
+import info.miningyour.games.centipede.utils.Event;
+import info.miningyour.games.centipede.utils.EventListener;
+import info.miningyour.games.centipede.utils.EventPump;
 import info.miningyour.games.centipede.utils.InputState;
-import java.util.Observable;
-import java.util.Observer;
 
-public class Bullet extends GameObject implements Observer {
+public class Bullet extends GameObject implements EventListener {
 
     private Player player;
     private boolean shouldFire;
@@ -22,6 +23,8 @@ public class Bullet extends GameObject implements Observer {
 
         this.maxY = 248 - getHeight();
         this.velocity.y = 386;
+
+        EventPump.subscribe(Event.Input, this);
 
         reset();
     }
@@ -70,9 +73,9 @@ public class Bullet extends GameObject implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof InputState) {
-            InputState state = (InputState) o;
+    public void onEvent(Event event, Object obj) {
+        if (event == Event.Input && obj instanceof InputState) {
+            InputState state = (InputState) obj;
             shouldFire = state.getShouldFire();
         }
     }

@@ -1,10 +1,6 @@
 package info.miningyour.games.centipede.utils;
 
-import info.miningyour.games.centipede.game.Bullet;
-import info.miningyour.games.centipede.game.Player;
-import java.util.Observable;
-
-public class InputState extends Observable {
+public class InputState {
 
     private boolean moveUp;
     private boolean moveDown;
@@ -13,9 +9,7 @@ public class InputState extends Observable {
 
     private boolean shouldFire;
 
-    public InputState(Player player, Bullet bullet) {
-        addObserver(player);
-        addObserver(bullet);
+    public InputState() {
 
         moveUp = false;
         moveDown = false;
@@ -27,8 +21,7 @@ public class InputState extends Observable {
 
     public void setMoveUp(boolean state) {
         moveUp = state;
-        setChanged();
-        notifyObservers();
+        EventPump.publish(Event.Input, this);
     }
 
     public boolean getMoveUp() {
@@ -37,8 +30,7 @@ public class InputState extends Observable {
 
     public void setMoveDown(boolean state) {
         moveDown = state;
-        setChanged();
-        notifyObservers();
+        EventPump.publish(Event.Input, this);
     }
 
     public boolean getMoveDown() {
@@ -47,8 +39,7 @@ public class InputState extends Observable {
 
     public void setMoveLeft(boolean state) {
         moveLeft = state;
-        setChanged();
-        notifyObservers();
+        EventPump.publish(Event.Input, this);
     }
 
     public boolean getMoveLeft() {
@@ -57,8 +48,7 @@ public class InputState extends Observable {
 
     public void setMoveRight(boolean state) {
         moveRight = state;
-        setChanged();
-        notifyObservers();
+        EventPump.publish(Event.Input, this);
     }
 
     public boolean getMoveRight() {
@@ -67,8 +57,7 @@ public class InputState extends Observable {
 
     public void setShouldFire(boolean state) {
         shouldFire = state;
-        setChanged();
-        notifyObservers();
+        EventPump.publish(Event.Input, this);
     }
 
     public boolean getShouldFire() {
