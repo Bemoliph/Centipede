@@ -18,6 +18,9 @@ public class GameScreen implements Screen {
         renderer = new GameRenderer(new Rectangle(0, 0, 240, 256));
         world = new GameWorld(new Rectangle(0, 8, 240, 240));
 
+        renderer.setWorld(world);
+        world.newGame();
+
         Gdx.input.setInputProcessor(new InputHandler());
     }
 

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import info.miningyour.games.centipede.game.GameObject;
+import info.miningyour.games.centipede.game.GameWorld;
 import info.miningyour.games.centipede.utils.AssetLoader;
 import info.miningyour.games.centipede.utils.Event;
 import info.miningyour.games.centipede.utils.EventListener;
@@ -24,6 +25,8 @@ public class GameRenderer implements EventListener {
 
     private ArrayList<Animated> animatedObjects = new ArrayList<Animated>();
 
+    private GameWorld world;
+
     public GameRenderer(Rectangle bounds) {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, bounds.getWidth(), bounds.getHeight());
@@ -34,8 +37,23 @@ public class GameRenderer implements EventListener {
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(camera.combined);
 
+        this.world = null;
+
         EventPump.subscribe(Event.Spawn, this);
         EventPump.subscribe(Event.Death, this);
+        EventPump.subscribe(Event.GameOver, this);
+    }
+
+    private void reset() {
+        animatedObjects.clear();
+    }
+
+    private String getScore() {
+        return world.getScore().toString();
+    }
+
+    public void setWorld(GameWorld world) {
+        this.world = world;
     }
 
     public void render(float runTime) {
@@ -67,20 +85,24 @@ public class GameRenderer implements EventListener {
                          animObj.getRotation());
         }
 
+        AssetLoader.font.draw(batcher, getScore(), (6 - getScore().length()) * 8, 256);
+
         batcher.end();
     }
 
     @Override
     public void onEvent(Event event, Object obj) {
-        GameObject gameObj = (GameObject) obj;
-
         switch (event) {
             case Spawn:
-                animatedObjects.add(gameObj);
+                animatedObjects.add((GameObject) obj);
                 break;
 
             case Death:
-                animatedObjects.remove(gameObj);
+                animatedObjects.remove((GameObject) obj);
+                break;
+
+            case GameOver:
+                reset();
                 break;
         }
     }

@@ -1,19 +1,39 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
+import info.miningyour.games.centipede.utils.AssetLoader;
 
 public class Flea extends GameObject {
 
-    private int mushroomCount;
-    private int minY;
+    private static int minGameLevel = 1;
+    private static int minMushrooms = 50;
+    private static int maxFleas = 1;
+    private static float mushroomSpawnChance = 0.075f;
 
-    public Flea(float x, float y, int mushroomCount) {
-        super("flea", "flea", new Rectangle(x, y, 9, 8), 1);
+    private static int minY = -8;
 
-        this.mushroomCount = mushroomCount;
+    private GameWorld world;
+
+    public Flea(float x, float y, GameWorld world) {
+        super("flea", "flea", new Rectangle(0, 0, 9, 8), 1, 200);
+        setCenterX(x);
+        setCenterY(y);
+
+        this.world = world;
 
         velocity.set(0, -128);
-        minY = 0;
+    }
+
+    public static boolean shouldSpawn(GameWorld world) {
+        return minGameLevel <= world.getLevel()
+               && world.getSpawnCount("mushroom") < minMushrooms
+               && world.getSpawnCount("flea") < maxFleas;
+    }
+
+    private boolean shouldSpawnMushroom() {
+        return minY + 24 < getY()
+               && AssetLoader.rng.nextFloat() < mushroomSpawnChance
+               && !world.isMushroomAt(getX(), getY());
     }
 
     @Override
@@ -22,6 +42,9 @@ public class Flea extends GameObject {
 
         if (getY() < minY) {
             die();
+        }
+        else if (shouldSpawnMushroom()) {
+            world.spawnMushroom(getX(), getY());
         }
     }
 }

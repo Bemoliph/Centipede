@@ -4,7 +4,9 @@ public enum Event {
 
     Spawn,
     Death,
+    Score,
     Collision,
     Input,
-
+    NewGame,
+    GameOver,
 }

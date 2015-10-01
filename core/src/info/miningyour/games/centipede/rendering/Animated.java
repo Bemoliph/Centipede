@@ -14,6 +14,10 @@ public interface Animated {
 
     public int getHeight();
 
+    public float getCenterX();
+
+    public float getCenterY();
+
     public float getScaleX();
 
     public float getScaleY();

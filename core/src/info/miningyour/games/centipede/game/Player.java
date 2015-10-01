@@ -16,7 +16,7 @@ public class Player extends GameObject implements EventListener {
     private int maxY;
 
     public Player(float x, float y) {
-        super("player", "player", new Rectangle(x, y, 7, 8), 1);
+        super("player", "player", new Rectangle(x, y, 7, 8), 1, 0);
 
         minX = 0;
         maxX = 240 - getWidth();
@@ -24,6 +24,19 @@ public class Player extends GameObject implements EventListener {
         maxY = minY + 6 * 8 - getHeight();
 
         EventPump.subscribe(Event.Input, this);
+    }
+
+    @Override
+    public void onCollision(GameObject gameObj) {
+        if (!(gameObj instanceof Bullet) && !(gameObj instanceof Mushroom)) {
+            this.damage();
+        }
+    }
+
+    @Override
+    public void die() {
+        EventPump.publish(Event.Death, this);
+        EventPump.publish(Event.GameOver);
     }
 
     @Override

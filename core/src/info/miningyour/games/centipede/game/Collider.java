@@ -2,29 +2,35 @@ package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
 import info.miningyour.games.centipede.utils.QuadTree;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Collider {
 
-    private List<GameObject> objects;
+    private List<GameObject> gameObjects;
     private QuadTree collisionTree;
     private List<GameObject> candidates;
 
     public Collider(Rectangle bounds) {
-        objects = new ArrayList<GameObject>();
+        gameObjects = new LinkedList<GameObject>();
         collisionTree = new QuadTree(bounds);
-        candidates = new ArrayList<GameObject>();
+        candidates = new LinkedList<GameObject>();
     }
 
     public void add(GameObject gameObj) {
-        objects.add(gameObj);
+        gameObjects.add(gameObj);
         collisionTree.insert(gameObj);
     }
 
     public void remove(GameObject gameObj) {
-        objects.remove(gameObj);
+        gameObjects.remove(gameObj);
         update();
+    }
+
+    public void clear() {
+        gameObjects.clear();
+        collisionTree.clear();
+        candidates.clear();
     }
 
     public void update() {
@@ -32,7 +38,7 @@ public class Collider {
          * TODO: Allow for updating individual objects without full clears
          */
         collisionTree.clear();
-        for (GameObject gameObj : objects) {
+        for (GameObject gameObj : gameObjects) {
             collisionTree.insert(gameObj);
         }
     }

@@ -1,55 +1,111 @@
 
 sprite_sheet.png
-size: 64,16
+size: 512,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+atari
+  rotate: false
+  xy: 2, 22
+  size: 256, 37
+  orig: 256, 37
+  offset: 0, 0
+  index: 0
 bullet
   rotate: false
-  xy: 51, 4
+  xy: 260, 23
   size: 1, 6
   orig: 1, 6
   offset: 0, 0
   index: -1
 flea
   rotate: false
-  xy: 42, 2
-  size: 7, 8
-  orig: 7, 8
+  xy: 260, 41
+  size: 9, 8
+  orig: 9, 8
   offset: 0, 0
-  index: -1
-player
+  index: 0
+flea
   rotate: false
-  xy: 42, 2
-  size: 7, 8
-  orig: 7, 8
+  xy: 278, 51
+  size: 9, 8
+  orig: 9, 8
   offset: 0, 0
-  index: -1
+  index: 1
+flea
+  rotate: false
+  xy: 20, 2
+  size: 9, 8
+  orig: 9, 8
+  offset: 0, 0
+  index: 2
+flea
+  rotate: false
+  xy: 38, 12
+  size: 9, 8
+  orig: 9, 8
+  offset: 0, 0
+  index: 3
 mushroom100
   rotate: false
-  xy: 32, 2
+  xy: 31, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom25
   rotate: false
-  xy: 2, 2
+  xy: 260, 31
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom50
   rotate: false
-  xy: 12, 2
+  xy: 271, 41
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom75
   rotate: false
-  xy: 22, 2
+  xy: 289, 51
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
+player
+  rotate: false
+  xy: 49, 12
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
+scorpion
+  rotate: false
+  xy: 2, 12
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 0
+scorpion
+  rotate: false
+  xy: 260, 51
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 1
+scorpion
+  rotate: false
+  xy: 2, 2
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 2
+scorpion
+  rotate: false
+  xy: 20, 12
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 3

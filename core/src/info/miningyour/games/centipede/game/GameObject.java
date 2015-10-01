@@ -21,8 +21,9 @@ public abstract class GameObject implements Animated {
 
     protected int currentHP;
     protected int maxHP;
+    protected int scoreValue;
 
-    public GameObject(String name, String spriteName, Rectangle boundingBox, int hp) {
+    public GameObject(String name, String spriteName, Rectangle boundingBox, int hp, int scoreValue) {
         this.name = name;
 
         this.animationName = spriteName;
@@ -35,12 +36,17 @@ public abstract class GameObject implements Animated {
 
         this.currentHP = hp;
         this.maxHP = hp;
+        this.scoreValue = scoreValue;
 
         EventPump.publish(Event.Spawn, this);
     }
 
     public String getName() {
         return name;
+    }
+
+    public int getScoreValue() {
+        return scoreValue;
     }
 
     public void update(float deltaTime) {
@@ -71,6 +77,11 @@ public abstract class GameObject implements Animated {
 
     public void die() {
         EventPump.publish(Event.Death, this);
+        EventPump.publish(Event.Score, this);
+    }
+
+    public boolean wasKilled() {
+        return !isAlive() && currentHP == 0;
     }
 
     @Override
@@ -109,6 +120,24 @@ public abstract class GameObject implements Animated {
     @Override
     public int getHeight() {
         return (int) boundingBox.height;
+    }
+
+    @Override
+    public float getCenterX() {
+        return getX() + getWidth() / 2;
+    }
+
+    public void setCenterX(float x) {
+        setX(x - getWidth() / 2);
+    }
+
+    @Override
+    public float getCenterY() {
+        return getY() + getHeight() / 2;
+    }
+
+    public void setCenterY(float y) {
+        setY(y - getHeight() / 2);
     }
 
     @Override

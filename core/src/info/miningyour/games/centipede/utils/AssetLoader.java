@@ -3,6 +3,7 @@ package info.miningyour.games.centipede.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import java.util.HashMap;
 import java.util.Random;
@@ -13,6 +14,8 @@ public class AssetLoader {
 
     public static Random rng;
 
+    public static BitmapFont font;
+
     private static TextureAtlas atlas;
     private static HashMap<String, Animation> cachedAnims;
 
@@ -20,6 +23,8 @@ public class AssetLoader {
         prefs = Gdx.app.getPreferences("Centipede");
 
         rng = new Random();
+
+        font = new BitmapFont(Gdx.files.internal("atari.fnt"));
 
         atlas = new TextureAtlas(Gdx.files.internal("sprite_sheet.atlas"));
 
