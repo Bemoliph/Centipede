@@ -17,6 +17,7 @@ public class GameWorld implements EventListener {
 
     private int level;
     private int score;
+    private int highScore;
 
     private Rectangle bounds;
 
@@ -49,6 +50,7 @@ public class GameWorld implements EventListener {
     public void newGame() {
         level = 1;
         score = 0;
+        highScore = AssetLoader.prefs.getInteger("high_score", 0);
 
         spawnCounts.clear();
         gameObjects.clear();
@@ -62,12 +64,25 @@ public class GameWorld implements EventListener {
         populateMushrooms(minMushrooms + AssetLoader.rng.nextInt(5));
     }
 
+    private void updateHighScore() {
+        if (highScore < score) {
+            highScore = score;
+            AssetLoader.prefs.putInteger("high_score", highScore);
+            AssetLoader.prefs.flush();
+        }
+    }
+
     public void gameOver() {
+        updateHighScore();
         newGame();
     }
 
     public Integer getScore() {
         return score;
+    }
+
+    public Integer getHighScore() {
+        return highScore;
     }
 
     private int normalizeMushroomCoordinate(float a) {

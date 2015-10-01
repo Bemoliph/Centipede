@@ -52,6 +52,10 @@ public class GameRenderer implements EventListener {
         return world.getScore().toString();
     }
 
+    private String getHighScore() {
+        return world.getHighScore().toString();
+    }
+
     public void setWorld(GameWorld world) {
         this.world = world;
     }
@@ -85,7 +89,11 @@ public class GameRenderer implements EventListener {
                          animObj.getRotation());
         }
 
-        AssetLoader.font.draw(batcher, getScore(), (6 - getScore().length()) * 8, 256);
+        String score = getScore();
+        AssetLoader.font.draw(batcher, score, (6 - score.length()) * 8, 256);
+
+        String highScore = getHighScore();
+        AssetLoader.font.draw(batcher, highScore, (camera.viewportWidth - highScore.length() * 8) / 2.0f, 256);
 
         batcher.end();
     }
