@@ -15,6 +15,7 @@ public class GameWorld implements EventListener {
     private static final int mushroomSize = 8;
     private static final int minMushrooms = 50;
 
+    private boolean isGameOver;
     private int level;
     private int score;
     private int highScore;
@@ -48,6 +49,7 @@ public class GameWorld implements EventListener {
     }
 
     public void newGame() {
+        isGameOver = false;
         level = 1;
         score = 0;
         highScore = AssetLoader.prefs.getInteger("high_score", 0);
@@ -182,16 +184,22 @@ public class GameWorld implements EventListener {
 
     public void update(float deltaTime) {
         churnGameObjects();
-
         for (GameObject gameObj : gameObjects) {
             gameObj.update(deltaTime);
         }
 
         collider.update();
-        collider.collide(player);
-        collider.collide(bullet);
+        for (GameObject gameObj : gameObjects) {
+            if (!(gameObj instanceof Mushroom)) {
+                collider.collide(gameObj);
+            }
+        }
 
         spawnQualifyingEntities();
+
+        if (isGameOver) {
+            gameOver();
+        }
     }
 
     private void onSpawn(GameObject gameObj) {
@@ -224,7 +232,7 @@ public class GameWorld implements EventListener {
                 break;
 
             case GameOver:
-                gameOver();
+                isGameOver = true;
                 break;
         }
     }

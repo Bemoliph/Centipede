@@ -76,9 +76,37 @@ mushroom75
   index: -1
 player
   rotate: false
-  xy: 49, 12
+  xy: 41, 2
   size: 7, 8
   orig: 7, 8
+  offset: 0, 0
+  index: -1
+poisoned_mushroom100
+  rotate: false
+  xy: 299, 51
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+poisoned_mushroom25
+  rotate: false
+  xy: 49, 12
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+poisoned_mushroom50
+  rotate: false
+  xy: 270, 31
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+poisoned_mushroom75
+  rotate: false
+  xy: 281, 41
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 scorpion
