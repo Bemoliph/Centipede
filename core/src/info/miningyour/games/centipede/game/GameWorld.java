@@ -61,7 +61,7 @@ public class GameWorld implements EventListener {
 
         collider.clear();
 
-        player = new Player(16, 16);
+        player = new Player(16.0f, 16.0f);
         bullet = new Bullet(player);
         populateMushrooms(minMushrooms + AssetLoader.rng.nextInt(5));
     }
@@ -136,8 +136,14 @@ public class GameWorld implements EventListener {
         Flea flea = new Flea(x, y, this);
     }
 
-    private void spawnSpider(float x, float y) {
+    private void spawnSpider() {
+        int col = AssetLoader.rng.nextInt(2) == 0 ? -1 : 31;
+        int row = AssetLoader.rng.nextInt((int) (bounds.height / mushroomSize) - 15) + 5;
 
+        float x = mushroomSize * (col + 0.5f);
+        float y = mushroomSize * (row + 0.5f);
+
+        Spider spider = new Spider(x, y);
     }
 
     private void spawnCentipede(float x, float y, int segments) {
@@ -151,7 +157,7 @@ public class GameWorld implements EventListener {
         float x = mushroomSize * (col + 0.5f);
         float y = mushroomSize * (row + 0.5f);
 
-        Scorpion scorpion = new Scorpion(x, y, this);
+        Scorpion scorpion = new Scorpion(x, y);
     }
 
     private void spawnQualifyingEntities() {
@@ -161,6 +167,10 @@ public class GameWorld implements EventListener {
 
         if (Scorpion.shouldSpawn(this)) {
             spawnScorpion();
+        }
+
+        if (Spider.shouldSpawn(this)) {
+            spawnSpider();
         }
     }
 

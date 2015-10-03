@@ -124,20 +124,20 @@ public abstract class GameObject implements Animated {
 
     @Override
     public float getCenterX() {
-        return getX() + getWidth() / 2;
+        return getX() + getWidth() / 2.0f;
     }
 
     public void setCenterX(float x) {
-        setX(x - getWidth() / 2);
+        setX(x - getWidth() / 2.0f);
     }
 
     @Override
     public float getCenterY() {
-        return getY() + getHeight() / 2;
+        return getY() + getHeight() / 2.0f;
     }
 
     public void setCenterY(float y) {
-        setY(y - getHeight() / 2);
+        setY(y - getHeight() / 2.0f);
     }
 
     @Override

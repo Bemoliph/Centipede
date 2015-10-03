@@ -12,17 +12,17 @@ public class Bullet extends GameObject implements EventListener {
     private boolean shouldFire;
     private boolean isFired;
 
-    private int maxY;
+    private float maxY;
 
     public Bullet(Player player) {
-        super("bullet", "bullet", new Rectangle(0, 0, 1, 6), 1, 0);
+        super("bullet", "bullet", new Rectangle(0.0f, 0.0f, 1.0f, 6.0f), 1, 0);
 
         this.player = player;
         this.shouldFire = false;
         this.isFired = false;
 
-        this.maxY = 248 - getHeight();
-        this.velocity.y = 386;
+        this.maxY = 248.0f - getHeight();
+        this.velocity.y = 386.0f;
 
         EventPump.subscribe(Event.Input, this);
 

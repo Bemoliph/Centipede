@@ -5,27 +5,23 @@ import info.miningyour.games.centipede.utils.AssetLoader;
 
 public class Scorpion extends GameObject {
 
-    private static int minGameLevel = 1;
+    private static int minGameLevel = 2;
     private static int maxScorpions = 1;
     private static float spawnChance = 0.0075f;
 
-    private static int minX = -16;
-    private static int maxX = 240 + 16;
+    private static float minX = -16.0f;
+    private static float maxX = 240.0f + 16.0f;
 
-    private GameWorld world;
-
-    public Scorpion(float x, float y, GameWorld world) {
-        super("scorpion", "scorpion", new Rectangle(x, y, 16, 8), 1, 1000);
+    public Scorpion(float x, float y) {
+        super("scorpion", "scorpion", new Rectangle(x, y, 16.0f, 8.0f), 1, 1000);
         setCenterX(x);
         setCenterY(y);
 
-        this.world = world;
-
-        if (x < 0) {
-            velocity.set(128, 0);
+        if (x < 0.0f) {
+            velocity.set(128.0f, 0.0f);
         }
         else {
-            velocity.set(-128, 0);
+            velocity.set(-128.0f, 0.0f);
         }
     }
 

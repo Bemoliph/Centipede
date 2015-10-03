@@ -39,8 +39,8 @@ public class QuadTree {
     }
 
     private void split() {
-        int subWidth = (int) (bounds.getWidth() / 2);
-        int subHeight = (int) (bounds.getHeight() / 2);
+        int subWidth = (int) (bounds.getWidth() / 2.0f);
+        int subHeight = (int) (bounds.getHeight() / 2.0f);
         int x = (int) bounds.getX();
         int y = (int) bounds.getY();
 
@@ -56,8 +56,8 @@ public class QuadTree {
 
     private int getIndexForObject(Rectangle rect) {
 
-        double verticalMidpoint = bounds.getX() + (bounds.getWidth() / 2);
-        double horizontalMidpoint = bounds.getY() + (bounds.getHeight() / 2);
+        double verticalMidpoint = bounds.getX() + (bounds.getWidth() / 2.0f);
+        double horizontalMidpoint = bounds.getY() + (bounds.getHeight() / 2.0f);
 
         boolean fitsInLeftQuad = rect.getX() < verticalMidpoint
                                  && rect.getX() + rect.getWidth() < verticalMidpoint;

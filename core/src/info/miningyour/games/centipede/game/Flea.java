@@ -5,23 +5,23 @@ import info.miningyour.games.centipede.utils.AssetLoader;
 
 public class Flea extends GameObject {
 
-    private static int minGameLevel = 1;
+    private static int minGameLevel = 2;
     private static int minMushrooms = 50;
     private static int maxFleas = 1;
     private static float mushroomSpawnChance = 0.075f;
 
-    private static int minY = -8;
+    private static float minY = -8.0f;
 
     private GameWorld world;
 
     public Flea(float x, float y, GameWorld world) {
-        super("flea", "flea", new Rectangle(0, 0, 9, 8), 1, 200);
+        super("flea", "flea", new Rectangle(0.0f, 0.0f, 9.0f, 8.0f), 1, 200);
         setCenterX(x);
         setCenterY(y);
 
         this.world = world;
 
-        velocity.set(0, -128);
+        velocity.set(0.0f, -128.0f);
     }
 
     public static boolean shouldSpawn(GameWorld world) {
@@ -31,7 +31,7 @@ public class Flea extends GameObject {
     }
 
     private boolean shouldSpawnMushroom() {
-        return minY + 24 < getY()
+        return minY + 24.0f < getY()
                && AssetLoader.rng.nextFloat() < mushroomSpawnChance
                && !world.isMushroomAt(getX(), getY());
     }

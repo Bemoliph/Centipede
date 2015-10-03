@@ -20,91 +20,91 @@ bullet
   index: -1
 flea
   rotate: false
-  xy: 260, 41
+  xy: 37, 2
   size: 9, 8
   orig: 9, 8
   offset: 0, 0
   index: 0
 flea
   rotate: false
-  xy: 278, 51
+  xy: 55, 12
   size: 9, 8
   orig: 9, 8
   offset: 0, 0
   index: 1
 flea
   rotate: false
-  xy: 20, 2
+  xy: 277, 31
   size: 9, 8
   orig: 9, 8
   offset: 0, 0
   index: 2
 flea
   rotate: false
-  xy: 38, 12
+  xy: 294, 41
   size: 9, 8
   orig: 9, 8
   offset: 0, 0
   index: 3
 mushroom100
   rotate: false
-  xy: 31, 2
+  xy: 288, 31
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom25
   rotate: false
-  xy: 260, 31
+  xy: 312, 51
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom50
   rotate: false
-  xy: 271, 41
+  xy: 48, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom75
   rotate: false
-  xy: 289, 51
+  xy: 66, 12
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 41, 2
+  xy: 298, 31
   size: 7, 8
   orig: 7, 8
   offset: 0, 0
   index: -1
 poisoned_mushroom100
   rotate: false
-  xy: 299, 51
+  xy: 76, 12
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 poisoned_mushroom25
   rotate: false
-  xy: 49, 12
+  xy: 305, 41
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 poisoned_mushroom50
   rotate: false
-  xy: 270, 31
+  xy: 322, 51
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 poisoned_mushroom75
   rotate: false
-  xy: 281, 41
+  xy: 58, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -137,3 +137,59 @@ scorpion
   orig: 16, 8
   offset: 0, 0
   index: 3
+spider
+  rotate: false
+  xy: 260, 41
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: 0
+spider
+  rotate: false
+  xy: 278, 51
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: 1
+spider
+  rotate: false
+  xy: 20, 2
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: 2
+spider
+  rotate: false
+  xy: 38, 12
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: 3
+spider
+  rotate: false
+  xy: 260, 31
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: 4
+spider
+  rotate: false
+  xy: 260, 31
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: 6
+spider
+  rotate: false
+  xy: 277, 41
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: 5
+spider
+  rotate: false
+  xy: 295, 51
+  size: 15, 8
+  orig: 15, 8
+  offset: 0, 0
+  index: 7

@@ -8,20 +8,20 @@ import info.miningyour.games.centipede.utils.InputState;
 
 public class Player extends GameObject implements EventListener {
 
-    private static final int speed = 128;
+    private static final float speed = 128;
 
-    private int minX;
-    private int maxX;
-    private int minY;
-    private int maxY;
+    private float minX;
+    private float maxX;
+    private float minY;
+    private float maxY;
 
     public Player(float x, float y) {
-        super("player", "player", new Rectangle(x, y, 7, 8), 1, 0);
+        super("player", "player", new Rectangle(x, y, 7.0f, 8.0f), 1, 0);
 
-        minX = 0;
-        maxX = 240 - getWidth();
-        minY = 8;
-        maxY = minY + 6 * 8 - getHeight();
+        minX = 0.0f;
+        maxX = 240.0f - getWidth();
+        minY = 8.0f;
+        maxY = minY + 6.0f * 8.0f - getHeight();
 
         EventPump.subscribe(Event.Input, this);
     }

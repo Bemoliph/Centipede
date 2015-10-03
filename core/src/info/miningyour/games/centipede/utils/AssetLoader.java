@@ -37,7 +37,7 @@ public class AssetLoader {
          * every frame, so we'll cache it in a hashmap for speed.
          */
         if (!cachedAnims.containsKey(animationName)) {
-            Animation anim = new Animation(0.06f, atlas.findRegions(animationName));
+            Animation anim = new Animation(0.08f, atlas.findRegions(animationName));
             anim.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
             cachedAnims.put(animationName, anim);

@@ -17,7 +17,7 @@ public class Mushroom extends GameObject {
     private boolean isPoisoned;
 
     public Mushroom(float x, float y) {
-        super("mushroom", "mushroom", new Rectangle(x, y, 8, 8), normalAnims.length, 1);
+        super("mushroom", "mushroom", new Rectangle(x, y, 8.0f, 8.0f), normalAnims.length, 1);
 
         isPoisoned = false;
         updateAnimationName();

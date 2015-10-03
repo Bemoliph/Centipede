@@ -15,8 +15,8 @@ public class GameScreen implements Screen {
     private float runTime;
 
     public GameScreen() {
-        renderer = new GameRenderer(new Rectangle(0, 0, 240, 256));
-        world = new GameWorld(new Rectangle(0, 8, 240, 240));
+        renderer = new GameRenderer(new Rectangle(0.0f, 0.0f, 240.0f, 256.0f));
+        world = new GameWorld(new Rectangle(0.0f, 8.0f, 240.0f, 240.0f));
 
         renderer.setWorld(world);
         world.newGame();

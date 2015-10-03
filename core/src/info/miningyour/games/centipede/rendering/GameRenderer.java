@@ -62,17 +62,13 @@ public class GameRenderer implements EventListener {
 
     public void render(float runTime) {
         // Fill black
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         shapes.begin(ShapeType.Filled);
 
-        shapes.setColor(Color.BLUE);
-        shapes.rect(0, 0, 240, 8);
-        shapes.rect(0, 248, 240, 8);
-
         shapes.setColor(Color.GREEN);
-        shapes.rect(0, 8, 240, 48);
+        shapes.rect(0.0f, 8.0f, 240.0f, 48.0f);
 
         shapes.end();
 
@@ -90,10 +86,10 @@ public class GameRenderer implements EventListener {
         }
 
         String score = getScore();
-        AssetLoader.font.draw(batcher, score, (6 - score.length()) * 8, 256);
+        AssetLoader.font.draw(batcher, score, (6 - score.length()) * 8.0f, 256.0f);
 
         String highScore = getHighScore();
-        AssetLoader.font.draw(batcher, highScore, (camera.viewportWidth - highScore.length() * 8) / 2, 256);
+        AssetLoader.font.draw(batcher, highScore, (camera.viewportWidth - highScore.length() * 8.0f) / 2.0f, 256.0f);
 
         batcher.end();
     }
