@@ -9,4 +9,5 @@ public enum Event {
     Input,
     NewGame,
     GameOver,
+    NextLevel,
 }

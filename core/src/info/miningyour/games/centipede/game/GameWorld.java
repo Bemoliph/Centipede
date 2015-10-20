@@ -17,7 +17,9 @@ public class GameWorld implements EventListener {
     private static final int minMushrooms = 50;
 
     private boolean isGameOver;
+    private boolean hasCentipedeSpawned;
     private int level;
+
     private int score;
     private int highScore;
 
@@ -62,6 +64,7 @@ public class GameWorld implements EventListener {
     public void newGame() {
         isGameOver = false;
         level = 1;
+
         score = 0;
         highScore = AssetLoader.prefs.getInteger("high_score", 0);
 
@@ -77,6 +80,11 @@ public class GameWorld implements EventListener {
 
         spawnPlayer();
         populateMushrooms(minMushrooms + AssetLoader.rng.nextInt(5));
+    }
+
+    private void nextLevel() {
+        level += 1;
+        EventPump.publish(Event.NextLevel);
     }
 
     private void updateHighScore() {
@@ -250,18 +258,34 @@ public class GameWorld implements EventListener {
         spawningObjects.add(gameObj);
     }
 
+    private void respawnPlayer() {
+        bullet.die();
+
+        if (0 < lives) {
+            spawnPlayer();
+        }
+        else {
+            EventPump.publish(Event.GameOver);
+        }
+    }
+
+    private void checkNextLevel() {
+        int totalSegments = getSpawnCount("centipede_head") + getSpawnCount("centipede_body");
+
+        if (0 < totalSegments) {
+            nextLevel();
+        }
+    }
+
     private void onDeath(GameObject gameObj) {
         dyingObjects.add(gameObj);
 
         if (gameObj instanceof Player) {
-            bullet.die();
+            respawnPlayer();
+        }
 
-            if (0 < lives) {
-                spawnPlayer();
-            }
-            else {
-                EventPump.publish(Event.GameOver);
-            }
+        if (gameObj instanceof CentipedeHead) {
+            checkNextLevel();
         }
     }
 
