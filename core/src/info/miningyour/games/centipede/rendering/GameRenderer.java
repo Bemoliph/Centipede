@@ -30,6 +30,9 @@ public class GameRenderer implements EventListener {
     public GameRenderer(Rectangle bounds) {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, bounds.getWidth(), bounds.getHeight());
+        /*
+         * camera.position.set(120.0f, 128.0f, 0.0f); camera.update();
+         */
 
         shapes = new ShapeRenderer();
         shapes.setProjectionMatrix(camera.combined);
@@ -65,7 +68,7 @@ public class GameRenderer implements EventListener {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        shapes.begin(ShapeType.Filled);
+        shapes.begin(ShapeType.Line);
 
         shapes.setColor(Color.GREEN);
         shapes.rect(0.0f, 8.0f, 240.0f, 48.0f);

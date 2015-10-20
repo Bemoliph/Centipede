@@ -154,4 +154,8 @@ public abstract class GameObject implements Animated {
     public float getRotation() {
         return rotation;
     }
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
 }

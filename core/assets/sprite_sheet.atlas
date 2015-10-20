@@ -18,6 +18,76 @@ bullet
   orig: 1, 6
   offset: 0, 0
   index: -1
+centipede_body
+  rotate: false
+  xy: 312, 51
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 0
+centipede_body
+  rotate: false
+  xy: 48, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+centipede_body
+  rotate: false
+  xy: 66, 12
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 2
+centipede_body
+  rotate: false
+  xy: 66, 12
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 3
+centipede_body
+  rotate: false
+  xy: 288, 31
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 4
+centipede_head
+  rotate: false
+  xy: 305, 41
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 0
+centipede_head
+  rotate: false
+  xy: 322, 51
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+centipede_head
+  rotate: false
+  xy: 58, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 2
+centipede_head
+  rotate: false
+  xy: 76, 12
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 3
+centipede_head
+  rotate: false
+  xy: 298, 31
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 4
 flea
   rotate: false
   xy: 37, 2
@@ -48,63 +118,63 @@ flea
   index: 3
 mushroom100
   rotate: false
-  xy: 288, 31
+  xy: 86, 12
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom25
   rotate: false
-  xy: 312, 51
+  xy: 315, 41
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom50
   rotate: false
-  xy: 48, 2
+  xy: 332, 51
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 mushroom75
   rotate: false
-  xy: 66, 12
+  xy: 68, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 298, 31
+  xy: 96, 12
   size: 7, 8
   orig: 7, 8
   offset: 0, 0
   index: -1
 poisoned_mushroom100
   rotate: false
-  xy: 76, 12
+  xy: 78, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 poisoned_mushroom25
   rotate: false
-  xy: 305, 41
+  xy: 308, 31
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 poisoned_mushroom50
   rotate: false
-  xy: 322, 51
+  xy: 325, 41
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 poisoned_mushroom75
   rotate: false
-  xy: 58, 2
+  xy: 342, 51
   size: 8, 8
   orig: 8, 8
   offset: 0, 0

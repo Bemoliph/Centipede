@@ -7,7 +7,7 @@ public class Spider extends GameObject {
 
     private static int minGameLevel = 1;
     private static int maxSpiders = 1;
-    private static float spawnChance = 0.0075f;
+    private static float spawnChance = 0.00075f;
 
     private static float minX = -18.0f;
     private static float maxX = 240.0f + 18.0f;

@@ -1,6 +1,7 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.TimeUtils;
 import info.miningyour.games.centipede.utils.AssetLoader;
 import info.miningyour.games.centipede.utils.Event;
 import info.miningyour.games.centipede.utils.EventListener;
@@ -19,6 +20,10 @@ public class GameWorld implements EventListener {
     private int level;
     private int score;
     private int highScore;
+
+    private static int lifeThreshold = 12000;
+    private int extraLives;
+    private int lives;
 
     private Rectangle bounds;
 
@@ -48,11 +53,20 @@ public class GameWorld implements EventListener {
         EventPump.subscribe(Event.GameOver, this);
     }
 
+    private void spawnPlayer() {
+        player = new Player(16.0f, 0.0f);
+        bullet = new Bullet(player);
+        modifyLives(-1);
+    }
+
     public void newGame() {
         isGameOver = false;
         level = 1;
         score = 0;
         highScore = AssetLoader.prefs.getInteger("high_score", 0);
+
+        lives = 3;
+        extraLives = 0;
 
         spawnCounts.clear();
         gameObjects.clear();
@@ -61,8 +75,7 @@ public class GameWorld implements EventListener {
 
         collider.clear();
 
-        player = new Player(16.0f, 16.0f);
-        bullet = new Bullet(player);
+        spawnPlayer();
         populateMushrooms(minMushrooms + AssetLoader.rng.nextInt(5));
     }
 
@@ -72,6 +85,14 @@ public class GameWorld implements EventListener {
             AssetLoader.prefs.putInteger("high_score", highScore);
             AssetLoader.prefs.flush();
         }
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    private void modifyLives(int delta) {
+        lives += delta;
     }
 
     public void gameOver() {
@@ -115,7 +136,7 @@ public class GameWorld implements EventListener {
 
     private void populateMushrooms(int populationCount) {
         for (int i = getSpawnCount("mushroom"); i < populationCount;) {
-            int x = mushroomSize * AssetLoader.rng.nextInt((int) bounds.width / mushroomSize);
+            int x = mushroomSize * (AssetLoader.rng.nextInt((int) bounds.width / mushroomSize - 2) + 1);
             int y = mushroomSize * (AssetLoader.rng.nextInt((int) bounds.height / mushroomSize - 4) + 4);
 
             if (!isMushroomAt(x, y)) {
@@ -146,8 +167,16 @@ public class GameWorld implements EventListener {
         Spider spider = new Spider(x, y);
     }
 
-    private void spawnCentipede(float x, float y, int segments) {
+    private void spawnCentipede() {
+        int col = AssetLoader.rng.nextInt(2) == 0 ? -1 : 29;
+        int row = AssetLoader.rng.nextInt((int) (bounds.height / mushroomSize) - 2) + 2;
 
+        float x = mushroomSize * (col + 0.5f);
+        float y = mushroomSize * (row + 0.5f);
+
+        int segments = 12 - (int) (getLevel() / 2);
+        CentipedeHead centipede = new CentipedeHead(x, y, segments);
+        CentipedeHead.setLastSpawned(TimeUtils.millis());
     }
 
     private void spawnScorpion() {
@@ -172,6 +201,10 @@ public class GameWorld implements EventListener {
         if (Spider.shouldSpawn(this)) {
             spawnSpider();
         }
+
+        if (CentipedeHead.shouldSpawn(this)) {
+            spawnCentipede();
+        }
     }
 
     private void churnGameObjects() {
@@ -194,6 +227,7 @@ public class GameWorld implements EventListener {
 
     public void update(float deltaTime) {
         churnGameObjects();
+
         for (GameObject gameObj : gameObjects) {
             gameObj.update(deltaTime);
         }
@@ -218,11 +252,28 @@ public class GameWorld implements EventListener {
 
     private void onDeath(GameObject gameObj) {
         dyingObjects.add(gameObj);
+
+        if (gameObj instanceof Player) {
+            bullet.die();
+
+            if (0 < lives) {
+                spawnPlayer();
+            }
+            else {
+                EventPump.publish(Event.GameOver);
+            }
+        }
     }
 
     private void onScore(GameObject gameObj) {
         if (gameObj.wasKilled()) {
             score += gameObj.getScoreValue();
+
+            int newLives = score / lifeThreshold;
+            if (extraLives < newLives) {
+                extraLives = newLives;
+                modifyLives(+1);
+            }
         }
     }
 
