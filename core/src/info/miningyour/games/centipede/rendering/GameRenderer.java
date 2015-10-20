@@ -94,6 +94,17 @@ public class GameRenderer implements EventListener {
         String highScore = getHighScore();
         AssetLoader.font.draw(batcher, highScore, (camera.viewportWidth - highScore.length() * 8.0f) / 2.0f, 256.0f);
 
+        Animation life = AssetLoader.getAnimation("player");
+        for (int i = 0; i < world.getLives(); i++) {
+            batcher.draw(life.getKeyFrame(runTime),
+                         49.0f + 8.0f * i, 248.0f,
+                         3.5f, 4.0f,
+                         7.0f, 8.0f,
+                         1.0f, 1.0f,
+                         0.0f
+            );
+        }
+
         batcher.end();
     }
 
