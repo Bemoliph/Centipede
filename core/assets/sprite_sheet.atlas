@@ -88,6 +88,13 @@ centipede_head
   orig: 8, 8
   offset: 0, 0
   index: 4
+colortable
+  rotate: false
+  xy: 318, 31
+  size: 4, 8
+  orig: 4, 8
+  offset: 0, 0
+  index: -1
 flea
   rotate: false
   xy: 37, 2

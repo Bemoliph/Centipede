@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
@@ -23,6 +24,9 @@ public class GameRenderer implements EventListener {
     private ShapeRenderer shapes;
     private SpriteBatch batcher;
 
+    private ShaderProgram shader;
+    private int palette;
+
     private ArrayList<Animated> animatedObjects = new ArrayList<Animated>();
 
     private GameWorld world;
@@ -37,13 +41,25 @@ public class GameRenderer implements EventListener {
         shapes = new ShapeRenderer();
         shapes.setProjectionMatrix(camera.combined);
 
-        batcher = new SpriteBatch();
+        ShaderProgram.pedantic = false;
+        shader = new ShaderProgram(Gdx.files.internal("palette.vert"), Gdx.files.internal("palette.frag"));
+
+        batcher = new SpriteBatch(1000, shader);
         batcher.setProjectionMatrix(camera.combined);
+        batcher.setShader(shader);
+
+        setPalette(0);
+        AssetLoader.getColorPalette().bind(1);
+        shader.begin();
+        shader.setUniformi("colorTable", 1);
+        shader.end();
 
         this.world = null;
 
+        EventPump.subscribe(Event.NewGame, this);
         EventPump.subscribe(Event.Spawn, this);
         EventPump.subscribe(Event.Death, this);
+        EventPump.subscribe(Event.NextLevel, this);
         EventPump.subscribe(Event.GameOver, this);
     }
 
@@ -67,6 +83,7 @@ public class GameRenderer implements EventListener {
         // Fill black
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
 
         shapes.begin(ShapeType.Line);
 
@@ -108,9 +125,18 @@ public class GameRenderer implements EventListener {
         batcher.end();
     }
 
+    private void setPalette(int index) {
+        palette = index;
+        batcher.setColor((palette + 0.5f) / 8.0f, 0.0f, 0.0f, 0.0f);
+        AssetLoader.font.setColor((palette + 0.5f) / 8.0f, 0.0f, 0.0f, 0.0f);
+    }
+
     @Override
     public void onEvent(Event event, Object obj) {
         switch (event) {
+            case NewGame:
+                setPalette(world.getLevel() - 1);
+                break;
             case Spawn:
                 animatedObjects.add((GameObject) obj);
                 break;
@@ -119,9 +145,19 @@ public class GameRenderer implements EventListener {
                 animatedObjects.remove((GameObject) obj);
                 break;
 
+            case NextLevel:
+                setPalette(world.getLevel() - 1);
+                break;
+
             case GameOver:
                 reset();
                 break;
         }
+    }
+
+    public void dispose() {
+        batcher.dispose();
+        shader.dispose();
+        shapes.dispose();
     }
 }

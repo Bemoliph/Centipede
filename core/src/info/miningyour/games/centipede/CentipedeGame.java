@@ -17,5 +17,6 @@ public class CentipedeGame extends Game {
     @Override
     public void dispose() {
         AssetLoader.dispose();
+        this.screen.dispose();
     }
 }

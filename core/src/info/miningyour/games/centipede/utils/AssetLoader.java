@@ -2,6 +2,7 @@ package info.miningyour.games.centipede.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -19,6 +20,8 @@ public class AssetLoader {
     private static TextureAtlas atlas;
     private static HashMap<String, Animation> cachedAnims;
 
+    private static Texture colorPalette;
+
     public static void load() {
         prefs = Gdx.app.getPreferences("Centipede");
 
@@ -27,6 +30,8 @@ public class AssetLoader {
         font = new BitmapFont(Gdx.files.internal("atari.fnt"));
 
         atlas = new TextureAtlas(Gdx.files.internal("sprite_sheet.atlas"));
+
+        colorPalette = new Texture(Gdx.files.internal("colortable.png"));
 
         cachedAnims = new HashMap<String, Animation>();
     }
@@ -46,8 +51,17 @@ public class AssetLoader {
         return cachedAnims.get(animationName);
     }
 
+    public static TextureAtlas getTextureAtlas() {
+        return atlas;
+    }
+
+    public static Texture getColorPalette() {
+        return colorPalette;
+    }
+
     public static void dispose() {
-        atlas.dispose();
         font.dispose();
+        atlas.dispose();
+        colorPalette.dispose();
     }
 }

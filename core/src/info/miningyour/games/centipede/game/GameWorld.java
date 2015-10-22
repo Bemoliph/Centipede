@@ -80,6 +80,7 @@ public class GameWorld implements EventListener {
 
         spawnPlayer();
         populateMushrooms(minMushrooms + AssetLoader.rng.nextInt(5));
+        EventPump.publish(Event.NewGame);
     }
 
     private void nextLevel() {

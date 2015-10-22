@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        Gdx.app.log("GameScreen", "dispose() called");
+        renderer.dispose();
     }
 
 }
