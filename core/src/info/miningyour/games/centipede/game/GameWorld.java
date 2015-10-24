@@ -6,6 +6,7 @@ import info.miningyour.games.centipede.utils.AssetLoader;
 import info.miningyour.games.centipede.utils.Event;
 import info.miningyour.games.centipede.utils.EventListener;
 import info.miningyour.games.centipede.utils.EventPump;
+import info.miningyour.games.centipede.utils.Leaderboard;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class GameWorld implements EventListener {
 
     private int score;
     private int highScore;
+    private Leaderboard leaderboard;
 
     private static int lifeThreshold = 12000;
     private int extraLives;
@@ -49,6 +51,8 @@ public class GameWorld implements EventListener {
 
         collider = new Collider(bounds);
 
+        leaderboard = new Leaderboard();
+
         EventPump.subscribe(Event.Spawn, this);
         EventPump.subscribe(Event.Death, this);
         EventPump.subscribe(Event.Score, this);
@@ -66,7 +70,7 @@ public class GameWorld implements EventListener {
         level = 1;
 
         score = 0;
-        highScore = AssetLoader.prefs.getInteger("high_score", 0);
+        highScore = leaderboard.get(0);
 
         lives = 3;
         extraLives = 0;
@@ -88,25 +92,12 @@ public class GameWorld implements EventListener {
         EventPump.publish(Event.NextLevel);
     }
 
-    private void updateHighScore() {
-        if (highScore < score) {
-            highScore = score;
-            AssetLoader.prefs.putInteger("high_score", highScore);
-            AssetLoader.prefs.flush();
-        }
-    }
-
     public int getLives() {
         return lives;
     }
 
     private void modifyLives(int delta) {
         lives += delta;
-    }
-
-    public void gameOver() {
-        updateHighScore();
-        newGame();
     }
 
     public Integer getScore() {
@@ -251,7 +242,7 @@ public class GameWorld implements EventListener {
         spawnQualifyingEntities();
 
         if (isGameOver) {
-            gameOver();
+            onGameOver();
         }
     }
 
@@ -302,6 +293,11 @@ public class GameWorld implements EventListener {
         }
     }
 
+    private void onGameOver() {
+        leaderboard.add(score);
+        newGame();
+    }
+
     @Override
     public void onEvent(Event event, Object obj) {
         switch (event) {
@@ -318,6 +314,12 @@ public class GameWorld implements EventListener {
                 break;
 
             case GameOver:
+                /*
+                 * We can't directly call onGameOver() without causing a
+                 * ConcurrentModificationException due to the player dying.
+                 * Instead, we'll do it at the end of the tick after everything
+                 * has been processed safely.
+                 */
                 isGameOver = true;
                 break;
         }
