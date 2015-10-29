@@ -20,252 +20,364 @@ bullet
   index: -1
 centipede_body
   rotate: false
-  xy: 312, 51
+  xy: 312, 31
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 0
 centipede_body
   rotate: false
-  xy: 48, 2
+  xy: 324, 41
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 1
 centipede_body
   rotate: false
-  xy: 66, 12
+  xy: 342, 51
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 2
 centipede_body
   rotate: false
-  xy: 66, 12
+  xy: 342, 51
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 3
 centipede_body
   rotate: false
-  xy: 288, 31
+  xy: 84, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 4
 centipede_head
   rotate: false
-  xy: 305, 41
+  xy: 101, 12
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 0
 centipede_head
   rotate: false
-  xy: 322, 51
+  xy: 322, 31
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 1
 centipede_head
   rotate: false
-  xy: 58, 2
+  xy: 334, 41
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 2
 centipede_head
   rotate: false
-  xy: 76, 12
+  xy: 352, 51
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 3
 centipede_head
   rotate: false
-  xy: 298, 31
+  xy: 94, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 4
 colortable
   rotate: false
-  xy: 318, 31
+  xy: 374, 41
   size: 4, 8
   orig: 4, 8
   offset: 0, 0
   index: -1
-flea
+explosion_small
   rotate: false
-  xy: 37, 2
-  size: 9, 8
-  orig: 9, 8
+  xy: 111, 12
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: 0
-flea
+explosion_small
   rotate: false
-  xy: 55, 12
-  size: 9, 8
-  orig: 9, 8
+  xy: 332, 31
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: 1
-flea
+explosion_small
   rotate: false
-  xy: 277, 31
-  size: 9, 8
-  orig: 9, 8
+  xy: 344, 41
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: 2
-flea
+explosion_small
   rotate: false
-  xy: 294, 41
-  size: 9, 8
-  orig: 9, 8
+  xy: 362, 51
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: 3
-mushroom100
+explosion_small
   rotate: false
-  xy: 86, 12
+  xy: 104, 2
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
-  index: -1
-mushroom25
+  index: 4
+explosion_small
   rotate: false
-  xy: 315, 41
+  xy: 121, 12
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
-  index: -1
-mushroom50
+  index: 5
+explosion_small
   rotate: false
-  xy: 332, 51
+  xy: 342, 31
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
-  index: -1
-mushroom75
+  index: 6
+explosion_small
   rotate: false
-  xy: 68, 2
+  xy: 354, 41
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
-  index: -1
-player
-  rotate: false
-  xy: 96, 12
-  size: 7, 8
-  orig: 7, 8
-  offset: 0, 0
-  index: -1
-poisoned_mushroom100
-  rotate: false
-  xy: 78, 2
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-poisoned_mushroom25
-  rotate: false
-  xy: 308, 31
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-poisoned_mushroom50
-  rotate: false
-  xy: 325, 41
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-poisoned_mushroom75
-  rotate: false
-  xy: 342, 51
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-scorpion
+  index: 7
+explosion_wide
   rotate: false
   xy: 2, 12
   size: 16, 8
   orig: 16, 8
   offset: 0, 0
   index: 0
-scorpion
+explosion_wide
   rotate: false
   xy: 260, 51
   size: 16, 8
   orig: 16, 8
   offset: 0, 0
   index: 1
-scorpion
+explosion_wide
   rotate: false
   xy: 2, 2
   size: 16, 8
   orig: 16, 8
   offset: 0, 0
   index: 2
-scorpion
+explosion_wide
   rotate: false
   xy: 20, 12
   size: 16, 8
   orig: 16, 8
   offset: 0, 0
   index: 3
-spider
+explosion_wide
   rotate: false
   xy: 260, 41
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 4
+explosion_wide
+  rotate: false
+  xy: 278, 51
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 5
+explosion_wide
+  rotate: false
+  xy: 20, 2
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 6
+explosion_wide
+  rotate: false
+  xy: 38, 12
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 7
+flea
+  rotate: false
+  xy: 313, 41
+  size: 9, 8
+  orig: 9, 8
+  offset: 0, 0
+  index: 0
+flea
+  rotate: false
+  xy: 331, 51
+  size: 9, 8
+  orig: 9, 8
+  offset: 0, 0
+  index: 1
+flea
+  rotate: false
+  xy: 73, 2
+  size: 9, 8
+  orig: 9, 8
+  offset: 0, 0
+  index: 2
+flea
+  rotate: false
+  xy: 90, 12
+  size: 9, 8
+  orig: 9, 8
+  offset: 0, 0
+  index: 3
+mushroom100
+  rotate: false
+  xy: 352, 31
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+mushroom25
+  rotate: false
+  xy: 372, 51
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+mushroom50
+  rotate: false
+  xy: 114, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+mushroom75
+  rotate: false
+  xy: 131, 12
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 362, 31
+  size: 7, 8
+  orig: 7, 8
+  offset: 0, 0
+  index: -1
+poisoned_mushroom100
+  rotate: false
+  xy: 141, 12
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+poisoned_mushroom25
+  rotate: false
+  xy: 364, 41
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+poisoned_mushroom50
+  rotate: false
+  xy: 382, 51
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+poisoned_mushroom75
+  rotate: false
+  xy: 124, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+scorpion
+  rotate: false
+  xy: 260, 31
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 0
+scorpion
+  rotate: false
+  xy: 278, 41
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 1
+scorpion
+  rotate: false
+  xy: 296, 51
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 2
+scorpion
+  rotate: false
+  xy: 38, 2
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: 3
+spider
+  rotate: false
+  xy: 56, 12
   size: 15, 8
   orig: 15, 8
   offset: 0, 0
   index: 0
 spider
   rotate: false
-  xy: 278, 51
+  xy: 278, 31
   size: 15, 8
   orig: 15, 8
   offset: 0, 0
   index: 1
 spider
   rotate: false
-  xy: 20, 2
+  xy: 296, 41
   size: 15, 8
   orig: 15, 8
   offset: 0, 0
   index: 2
 spider
   rotate: false
-  xy: 38, 12
+  xy: 314, 51
   size: 15, 8
   orig: 15, 8
   offset: 0, 0
   index: 3
 spider
   rotate: false
-  xy: 260, 31
+  xy: 56, 2
   size: 15, 8
   orig: 15, 8
   offset: 0, 0
   index: 4
 spider
   rotate: false
-  xy: 260, 31
+  xy: 56, 2
   size: 15, 8
   orig: 15, 8
   offset: 0, 0
   index: 6
 spider
   rotate: false
-  xy: 277, 41
+  xy: 73, 12
   size: 15, 8
   orig: 15, 8
   offset: 0, 0
   index: 5
 spider
   rotate: false
-  xy: 295, 51
+  xy: 295, 31
   size: 15, 8
   orig: 15, 8
   offset: 0, 0

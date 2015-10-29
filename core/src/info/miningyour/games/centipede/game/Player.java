@@ -36,7 +36,7 @@ public class Player extends GameObject implements EventListener {
             this.damage();
         }
         else if (gameObj instanceof Mushroom) {
-            if (velocity.x != 0f) {
+            if (velocity.x != 0.0f) {
                 float oldX = oldBoundingBox.getX();
                 float objX = gameObj.getX();
                 float newX = oldX <= objX ? objX - getWidth() : objX + gameObj.getWidth();
@@ -44,7 +44,7 @@ public class Player extends GameObject implements EventListener {
                 setX(newX);
             }
 
-            if (velocity.y != 0f) {
+            if (velocity.y != 0.0f) {
                 float oldY = oldBoundingBox.getY();
                 float objY = gameObj.getY();
                 float newY = oldY <= objY ? objY - getHeight() : objY + gameObj.getHeight();
