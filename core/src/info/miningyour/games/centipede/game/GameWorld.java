@@ -89,6 +89,20 @@ public class GameWorld implements EventListener {
         EventPump.publish(EventType.NextLevel);
     }
 
+    private void tryNextLevel() {
+        int totalSegments = getSpawnCount("centipede_head") + getSpawnCount("centipede_body");
+        /*
+         * HACK: Subtracting 1 segment since this gets called as the segment
+         * dies but before its GameObject gets removed from the list, which
+         * otherwise prevents hitting 0 and consequently level changing.
+         */
+        totalSegments -= 1;
+
+        if (hasCentipedeSpawned && totalSegments == 0) {
+            nextLevel();
+        }
+    }
+
     public int getLives() {
         return lives;
     }
@@ -256,14 +270,6 @@ public class GameWorld implements EventListener {
         }
         else {
             EventPump.publish(EventType.GameOver);
-        }
-    }
-
-    private void tryNextLevel() {
-        int totalSegments = getSpawnCount("centipede_head") + getSpawnCount("centipede_body");
-
-        if (hasCentipedeSpawned && totalSegments == 0) {
-            nextLevel();
         }
     }
 

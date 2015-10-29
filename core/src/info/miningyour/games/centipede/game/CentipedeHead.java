@@ -7,7 +7,7 @@ import info.miningyour.games.centipede.utils.AssetLoader;
 public class CentipedeHead extends GameObject {
 
     private static int minGameLevel = 1;
-    private static int maxCentipedes = 12;
+    private static int maxCentipedes = 1;
     private static float spawnChance = 1;
     private static long spawnInterval = 3000;
     private static long lastSpawned = TimeUtils.millis();
@@ -123,6 +123,10 @@ public class CentipedeHead extends GameObject {
     public void die() {
         super.die();
 
+        /*
+         * Adjust spawn window so they don't spawn "infinitely" instantly
+         */
+        setLastSpawned(TimeUtils.millis());
         explode(ExplosionSize.Small);
         /*
          * TODO: Spawn mushroom here
