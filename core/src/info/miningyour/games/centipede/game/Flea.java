@@ -47,4 +47,11 @@ public class Flea extends GameObject {
             world.spawnMushroom(getX(), getY());
         }
     }
+
+    @Override
+    public void die() {
+        super.die();
+
+        explode(ExplosionSize.Large);
+    }
 }

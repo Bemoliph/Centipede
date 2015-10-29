@@ -13,7 +13,7 @@ atari
   index: 0
 bullet
   rotate: false
-  xy: 260, 23
+  xy: 151, 14
   size: 1, 6
   orig: 1, 6
   offset: 0, 0
@@ -90,7 +90,7 @@ centipede_head
   index: 4
 colortable
   rotate: false
-  xy: 374, 41
+  xy: 134, 2
   size: 4, 8
   orig: 4, 8
   offset: 0, 0
@@ -296,6 +296,27 @@ poisoned_mushroom75
   xy: 124, 2
   size: 8, 8
   orig: 8, 8
+  offset: 0, 0
+  index: -1
+score_nine_hundred
+  rotate: false
+  xy: 260, 24
+  size: 11, 5
+  orig: 11, 5
+  offset: 0, 0
+  index: -1
+score_six_hundred
+  rotate: false
+  xy: 374, 44
+  size: 11, 5
+  orig: 11, 5
+  offset: 0, 0
+  index: -1
+score_three_hundred
+  rotate: false
+  xy: 392, 54
+  size: 11, 5
+  orig: 11, 5
   offset: 0, 0
   index: -1
 scorpion

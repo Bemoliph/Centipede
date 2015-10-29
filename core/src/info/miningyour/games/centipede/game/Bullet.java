@@ -31,8 +31,7 @@ public class Bullet extends GameObject implements EventListener {
 
     @Override
     public void die() {
-        EventPump.publish(EventType.Death, this);
-        EventPump.publish(EventType.Score, this);
+        super.die();
 
         EventPump.unsubscribe(EventType.Input, this);
     }
@@ -72,9 +71,14 @@ public class Bullet extends GameObject implements EventListener {
         }
     }
 
+    private boolean canDamage(GameObject gameObj) {
+        return !(gameObj instanceof Player)
+               && !(gameObj instanceof Explosion);
+    }
+
     @Override
     public void onCollision(GameObject gameObj) {
-        if (isFired() && !(gameObj instanceof Player)) {
+        if (isFired() && canDamage(gameObj)) {
             gameObj.damage();
             this.reset();
         }

@@ -81,4 +81,11 @@ public class Spider extends GameObject {
             gameObj.die(); // eat the mushroom!
         }
     }
+
+    @Override
+    public void die() {
+        super.die();
+
+        explode(ExplosionSize.Large);
+    }
 }

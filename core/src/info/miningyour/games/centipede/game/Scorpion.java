@@ -47,4 +47,11 @@ public class Scorpion extends GameObject {
             mushroom.setPoisoned(true);
         }
     }
+
+    @Override
+    public void die() {
+        super.die();
+
+        explode(ExplosionSize.Large);
+    }
 }

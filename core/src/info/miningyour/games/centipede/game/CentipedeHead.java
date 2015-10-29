@@ -118,4 +118,14 @@ public class CentipedeHead extends GameObject {
             }
         }
     }
+
+    @Override
+    public void die() {
+        super.die();
+
+        explode(ExplosionSize.Small);
+        /*
+         * TODO: Spawn mushroom here
+         */
+    }
 }

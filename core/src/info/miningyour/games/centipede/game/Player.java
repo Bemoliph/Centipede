@@ -8,6 +8,8 @@ import info.miningyour.games.centipede.utils.InputState;
 
 public class Player extends GameObject implements EventListener {
 
+    private static final boolean isInvincible = false;
+
     private static final float speed = 128;
 
     private float minX;
@@ -30,9 +32,15 @@ public class Player extends GameObject implements EventListener {
         EventPump.subscribe(EventType.Input, this);
     }
 
+    private boolean canDamagePlayer(GameObject gameObj) {
+        return !(gameObj instanceof Bullet)
+               && !(gameObj instanceof Mushroom)
+               && !(gameObj instanceof Explosion);
+    }
+
     @Override
     public void onCollision(GameObject gameObj) {
-        if (!(gameObj instanceof Bullet) && !(gameObj instanceof Mushroom)) {
+        if (!isInvincible && canDamagePlayer(gameObj)) {
             this.damage();
         }
         else if (gameObj instanceof Mushroom) {
@@ -56,9 +64,10 @@ public class Player extends GameObject implements EventListener {
 
     @Override
     public void die() {
-        EventPump.publish(EventType.Death, this);
-
+        super.die();
         EventPump.unsubscribe(EventType.Input, this);
+
+        explode(ExplosionSize.Large);
     }
 
     @Override

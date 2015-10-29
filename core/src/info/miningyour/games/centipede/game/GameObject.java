@@ -3,9 +3,9 @@ package info.miningyour.games.centipede.game;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import info.miningyour.games.centipede.rendering.Animated;
-import info.miningyour.games.centipede.events.EventType;
 import info.miningyour.games.centipede.events.EventPump;
+import info.miningyour.games.centipede.events.EventType;
+import info.miningyour.games.centipede.rendering.Animated;
 
 public abstract class GameObject implements Animated {
 
@@ -157,5 +157,24 @@ public abstract class GameObject implements Animated {
 
     public Vector2 getVelocity() {
         return velocity;
+    }
+
+    public void explode(ExplosionSize size) {
+        Explosion explosion;
+
+        switch (size) {
+            case Small:
+                explosion = new ExplosionSmall(0, 0);
+                break;
+            case Large:
+                explosion = new ExplosionLarge(0, 0);
+                break;
+            default:
+                explosion = new ExplosionSmall(0, 0);
+                break;
+        }
+
+        explosion.setCenterX(getCenterX());
+        explosion.setCenterY(getCenterY());
     }
 }
