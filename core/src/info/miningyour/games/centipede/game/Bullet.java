@@ -1,9 +1,9 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
-import info.miningyour.games.centipede.utils.Event;
-import info.miningyour.games.centipede.utils.EventListener;
-import info.miningyour.games.centipede.utils.EventPump;
+import info.miningyour.games.centipede.events.EventListener;
+import info.miningyour.games.centipede.events.EventPump;
+import info.miningyour.games.centipede.events.EventType;
 import info.miningyour.games.centipede.utils.InputState;
 
 public class Bullet extends GameObject implements EventListener {
@@ -24,9 +24,17 @@ public class Bullet extends GameObject implements EventListener {
         this.maxY = 248.0f - getHeight();
         this.velocity.y = 386.0f;
 
-        EventPump.subscribe(Event.Input, this);
+        EventPump.subscribe(EventType.Input, this);
 
         reset();
+    }
+
+    @Override
+    public void die() {
+        EventPump.publish(EventType.Death, this);
+        EventPump.publish(EventType.Score, this);
+
+        EventPump.unsubscribe(EventType.Input, this);
     }
 
     private void alignToPlayer() {
@@ -73,8 +81,8 @@ public class Bullet extends GameObject implements EventListener {
     }
 
     @Override
-    public void onEvent(Event event, Object obj) {
-        if (event == Event.Input && obj instanceof InputState) {
+    public void onEvent(EventType event, Object obj) {
+        if (event == EventType.Input && obj instanceof InputState) {
             InputState state = (InputState) obj;
             shouldFire = state.getShouldFire();
         }

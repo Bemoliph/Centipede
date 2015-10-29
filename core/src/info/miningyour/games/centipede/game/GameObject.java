@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import info.miningyour.games.centipede.rendering.Animated;
-import info.miningyour.games.centipede.utils.Event;
-import info.miningyour.games.centipede.utils.EventPump;
+import info.miningyour.games.centipede.events.EventType;
+import info.miningyour.games.centipede.events.EventPump;
 
 public abstract class GameObject implements Animated {
 
@@ -38,7 +38,7 @@ public abstract class GameObject implements Animated {
         this.maxHP = hp;
         this.scoreValue = scoreValue;
 
-        EventPump.publish(Event.Spawn, this);
+        EventPump.publish(EventType.Spawn, this);
     }
 
     public String getName() {
@@ -76,8 +76,8 @@ public abstract class GameObject implements Animated {
     }
 
     public void die() {
-        EventPump.publish(Event.Death, this);
-        EventPump.publish(Event.Score, this);
+        EventPump.publish(EventType.Death, this);
+        EventPump.publish(EventType.Score, this);
     }
 
     public boolean wasKilled() {

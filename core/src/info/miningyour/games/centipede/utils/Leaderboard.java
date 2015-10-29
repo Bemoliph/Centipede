@@ -5,11 +5,12 @@ import java.util.List;
 
 public class Leaderboard {
 
-    private static final int maxScores = 10;
+    private static final int maxScores = 8;
     private List<Integer> scores;
 
     public Leaderboard() {
         scores = new LinkedList<Integer>();
+
         load();
     }
 
@@ -58,7 +59,7 @@ public class Leaderboard {
         }
     }
 
-    public int get(int index) {
+    public Integer get(int index) {
         return scores.get(index);
     }
 

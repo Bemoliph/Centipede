@@ -3,9 +3,9 @@ package info.miningyour.games.centipede.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
+import info.miningyour.games.centipede.events.EventPump;
 import info.miningyour.games.centipede.game.GameWorld;
 import info.miningyour.games.centipede.rendering.GameRenderer;
-import info.miningyour.games.centipede.utils.InputHandler;
 
 public class GameScreen implements Screen {
 
@@ -20,8 +20,6 @@ public class GameScreen implements Screen {
 
         renderer.setWorld(world);
         world.newGame();
-
-        Gdx.input.setInputProcessor(new InputHandler());
     }
 
     @Override
@@ -30,6 +28,7 @@ public class GameScreen implements Screen {
 
         runTime += delta;
         renderer.render(runTime);
+        EventPump.pump();
     }
 
     @Override
@@ -60,6 +59,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         renderer.dispose();
+        world.dispose();
     }
-
 }

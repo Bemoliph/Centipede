@@ -2,11 +2,10 @@ package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+import info.miningyour.games.centipede.events.EventListener;
+import info.miningyour.games.centipede.events.EventPump;
+import info.miningyour.games.centipede.events.EventType;
 import info.miningyour.games.centipede.utils.AssetLoader;
-import info.miningyour.games.centipede.utils.Event;
-import info.miningyour.games.centipede.utils.EventListener;
-import info.miningyour.games.centipede.utils.EventPump;
-import info.miningyour.games.centipede.utils.Leaderboard;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,9 +22,8 @@ public class GameWorld implements EventListener {
 
     private int score;
     private int highScore;
-    private Leaderboard leaderboard;
 
-    private static int lifeThreshold = 12000;
+    private static final int lifeThreshold = 12000;
     private int extraLives;
     private int lives;
 
@@ -51,12 +49,10 @@ public class GameWorld implements EventListener {
 
         collider = new Collider(bounds);
 
-        leaderboard = new Leaderboard();
-
-        EventPump.subscribe(Event.Spawn, this);
-        EventPump.subscribe(Event.Death, this);
-        EventPump.subscribe(Event.Score, this);
-        EventPump.subscribe(Event.GameOver, this);
+        EventPump.subscribe(EventType.Spawn, this);
+        EventPump.subscribe(EventType.Death, this);
+        EventPump.subscribe(EventType.Score, this);
+        EventPump.subscribe(EventType.GameOver, this);
     }
 
     private void spawnPlayer() {
@@ -70,7 +66,7 @@ public class GameWorld implements EventListener {
         level = 1;
 
         score = 0;
-        highScore = leaderboard.get(0);
+        highScore = AssetLoader.leaderboard.get(0);
 
         lives = 3;
         extraLives = 0;
@@ -84,12 +80,13 @@ public class GameWorld implements EventListener {
 
         spawnPlayer();
         populateMushrooms(minMushrooms + AssetLoader.rng.nextInt(5));
-        EventPump.publish(Event.NewGame);
+        EventPump.publish(EventType.NewGame);
     }
 
     private void nextLevel() {
         level += 1;
-        EventPump.publish(Event.NextLevel);
+        hasCentipedeSpawned = false;
+        EventPump.publish(EventType.NextLevel);
     }
 
     public int getLives() {
@@ -177,6 +174,7 @@ public class GameWorld implements EventListener {
         int segments = 12 - (int) (getLevel() / 2);
         CentipedeHead centipede = new CentipedeHead(x, y, segments);
         CentipedeHead.setLastSpawned(TimeUtils.millis());
+        hasCentipedeSpawned = true;
     }
 
     private void spawnScorpion() {
@@ -257,14 +255,14 @@ public class GameWorld implements EventListener {
             spawnPlayer();
         }
         else {
-            EventPump.publish(Event.GameOver);
+            EventPump.publish(EventType.GameOver);
         }
     }
 
-    private void checkNextLevel() {
+    private void tryNextLevel() {
         int totalSegments = getSpawnCount("centipede_head") + getSpawnCount("centipede_body");
 
-        if (0 < totalSegments) {
+        if (hasCentipedeSpawned && totalSegments == 0) {
             nextLevel();
         }
     }
@@ -277,7 +275,7 @@ public class GameWorld implements EventListener {
         }
 
         if (gameObj instanceof CentipedeHead) {
-            checkNextLevel();
+            tryNextLevel();
         }
     }
 
@@ -294,12 +292,12 @@ public class GameWorld implements EventListener {
     }
 
     private void onGameOver() {
-        leaderboard.add(score);
-        newGame();
+        AssetLoader.leaderboard.add(score);
+        EventPump.publish(EventType.ScoreScreen);
     }
 
     @Override
-    public void onEvent(Event event, Object obj) {
+    public void onEvent(EventType event, Object obj) {
         switch (event) {
             case Spawn:
                 onSpawn((GameObject) obj);
@@ -335,5 +333,12 @@ public class GameWorld implements EventListener {
 
     private void incSpawnCount(String gameObjectName, int inc) {
         spawnCounts.put(gameObjectName, getSpawnCount(gameObjectName) + inc);
+    }
+
+    public void dispose() {
+        EventPump.unsubscribe(EventType.Spawn, this);
+        EventPump.unsubscribe(EventType.Death, this);
+        EventPump.unsubscribe(EventType.Score, this);
+        EventPump.unsubscribe(EventType.GameOver, this);
     }
 }

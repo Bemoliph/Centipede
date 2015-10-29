@@ -1,5 +1,8 @@
 package info.miningyour.games.centipede.utils;
 
+import info.miningyour.games.centipede.events.EventType;
+import info.miningyour.games.centipede.events.EventPump;
+
 public class InputState {
 
     private boolean moveUp;
@@ -21,7 +24,7 @@ public class InputState {
 
     public void setMoveUp(boolean state) {
         moveUp = state;
-        EventPump.publish(Event.Input, this);
+        EventPump.publish(EventType.Input, this);
     }
 
     public boolean getMoveUp() {
@@ -30,7 +33,7 @@ public class InputState {
 
     public void setMoveDown(boolean state) {
         moveDown = state;
-        EventPump.publish(Event.Input, this);
+        EventPump.publish(EventType.Input, this);
     }
 
     public boolean getMoveDown() {
@@ -39,7 +42,7 @@ public class InputState {
 
     public void setMoveLeft(boolean state) {
         moveLeft = state;
-        EventPump.publish(Event.Input, this);
+        EventPump.publish(EventType.Input, this);
     }
 
     public boolean getMoveLeft() {
@@ -48,7 +51,7 @@ public class InputState {
 
     public void setMoveRight(boolean state) {
         moveRight = state;
-        EventPump.publish(Event.Input, this);
+        EventPump.publish(EventType.Input, this);
     }
 
     public boolean getMoveRight() {
@@ -57,7 +60,7 @@ public class InputState {
 
     public void setShouldFire(boolean state) {
         shouldFire = state;
-        EventPump.publish(Event.Input, this);
+        EventPump.publish(EventType.Input, this);
     }
 
     public boolean getShouldFire() {

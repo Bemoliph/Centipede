@@ -22,6 +22,8 @@ public class AssetLoader {
 
     private static Texture colorPalette;
 
+    public static Leaderboard leaderboard;
+
     public static void load() {
         prefs = Gdx.app.getPreferences("Centipede");
 
@@ -34,6 +36,8 @@ public class AssetLoader {
         colorPalette = new Texture(Gdx.files.internal("colortable.png"));
 
         cachedAnims = new HashMap<String, Animation>();
+
+        leaderboard = new Leaderboard();
     }
 
     public static Animation getAnimation(String animationName) {

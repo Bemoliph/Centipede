@@ -10,12 +10,12 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import info.miningyour.games.centipede.events.EventListener;
+import info.miningyour.games.centipede.events.EventPump;
+import info.miningyour.games.centipede.events.EventType;
 import info.miningyour.games.centipede.game.GameObject;
 import info.miningyour.games.centipede.game.GameWorld;
 import info.miningyour.games.centipede.utils.AssetLoader;
-import info.miningyour.games.centipede.utils.Event;
-import info.miningyour.games.centipede.utils.EventListener;
-import info.miningyour.games.centipede.utils.EventPump;
 import java.util.ArrayList;
 
 public class GameRenderer implements EventListener {
@@ -54,13 +54,13 @@ public class GameRenderer implements EventListener {
         shader.setUniformi("colorTable", 1);
         shader.end();
 
-        this.world = null;
+        world = null;
 
-        EventPump.subscribe(Event.NewGame, this);
-        EventPump.subscribe(Event.Spawn, this);
-        EventPump.subscribe(Event.Death, this);
-        EventPump.subscribe(Event.NextLevel, this);
-        EventPump.subscribe(Event.GameOver, this);
+        EventPump.subscribe(EventType.NewGame, this);
+        EventPump.subscribe(EventType.Spawn, this);
+        EventPump.subscribe(EventType.Death, this);
+        EventPump.subscribe(EventType.NextLevel, this);
+        EventPump.subscribe(EventType.GameOver, this);
     }
 
     private void reset() {
@@ -94,7 +94,16 @@ public class GameRenderer implements EventListener {
 
         batcher.begin();
 
+        drawGameObjects(runTime);
+        drawLives(runTime);
+        drawScore();
+
+        batcher.end();
+    }
+
+    private void drawGameObjects(float runTime) {
         batcher.enableBlending();
+
         for (Animated animObj : animatedObjects) {
             Animation anim = AssetLoader.getAnimation(animObj.getAnimationName());
             batcher.draw(anim.getKeyFrame(runTime),
@@ -104,12 +113,10 @@ public class GameRenderer implements EventListener {
                          animObj.getScaleX(), animObj.getScaleY(),
                          animObj.getRotation());
         }
+    }
 
-        String score = getScore();
-        AssetLoader.font.draw(batcher, score, (6 - score.length()) * 8.0f, 256.0f);
-
-        String highScore = getHighScore();
-        AssetLoader.font.draw(batcher, highScore, (camera.viewportWidth - highScore.length() * 8.0f) / 2.0f, 256.0f);
+    private void drawLives(float runTime) {
+        batcher.enableBlending();
 
         Animation life = AssetLoader.getAnimation("player");
         for (int i = 0; i < world.getLives(); i++) {
@@ -121,8 +128,16 @@ public class GameRenderer implements EventListener {
                          0.0f
             );
         }
+    }
 
-        batcher.end();
+    private void drawScore() {
+        batcher.disableBlending();
+
+        String score = getScore();
+        AssetLoader.font.draw(batcher, score, (6 - score.length()) * 8.0f, 256.0f);
+
+        String highScore = getHighScore();
+        AssetLoader.font.draw(batcher, highScore, (camera.viewportWidth - highScore.length() * 8.0f) / 2.0f, 256.0f);
     }
 
     private void setPalette(int index) {
@@ -132,7 +147,7 @@ public class GameRenderer implements EventListener {
     }
 
     @Override
-    public void onEvent(Event event, Object obj) {
+    public void onEvent(EventType event, Object obj) {
         switch (event) {
             case NewGame:
                 setPalette(world.getLevel() - 1);
@@ -159,5 +174,11 @@ public class GameRenderer implements EventListener {
         batcher.dispose();
         shader.dispose();
         shapes.dispose();
+
+        EventPump.unsubscribe(EventType.NewGame, this);
+        EventPump.unsubscribe(EventType.Spawn, this);
+        EventPump.unsubscribe(EventType.Death, this);
+        EventPump.unsubscribe(EventType.NextLevel, this);
+        EventPump.unsubscribe(EventType.GameOver, this);
     }
 }

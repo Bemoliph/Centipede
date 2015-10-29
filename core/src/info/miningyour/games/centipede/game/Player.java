@@ -1,9 +1,9 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
-import info.miningyour.games.centipede.utils.Event;
-import info.miningyour.games.centipede.utils.EventListener;
-import info.miningyour.games.centipede.utils.EventPump;
+import info.miningyour.games.centipede.events.EventListener;
+import info.miningyour.games.centipede.events.EventPump;
+import info.miningyour.games.centipede.events.EventType;
 import info.miningyour.games.centipede.utils.InputState;
 
 public class Player extends GameObject implements EventListener {
@@ -27,7 +27,7 @@ public class Player extends GameObject implements EventListener {
 
         oldBoundingBox = new Rectangle(boundingBox);
 
-        EventPump.subscribe(Event.Input, this);
+        EventPump.subscribe(EventType.Input, this);
     }
 
     @Override
@@ -56,7 +56,9 @@ public class Player extends GameObject implements EventListener {
 
     @Override
     public void die() {
-        EventPump.publish(Event.Death, this);
+        EventPump.publish(EventType.Death, this);
+
+        EventPump.unsubscribe(EventType.Input, this);
     }
 
     @Override
@@ -69,8 +71,8 @@ public class Player extends GameObject implements EventListener {
     }
 
     @Override
-    public void onEvent(Event event, Object obj) {
-        if (event == Event.Input && obj instanceof InputState) {
+    public void onEvent(EventType event, Object obj) {
+        if (event == EventType.Input && obj instanceof InputState) {
             InputState state = (InputState) obj;
 
             velocity.x = state.getMoveRight() ? 1 : 0;
