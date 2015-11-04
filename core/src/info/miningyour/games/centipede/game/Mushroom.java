@@ -48,14 +48,19 @@ public class Mushroom extends GameObject {
 
     @Override
     public void damage() {
-        currentHP--;
+        super.damage();
 
         if (isAlive()) {
             updateAnimationName();
         }
-        else {
-            die();
-        }
+    }
+
+    @Override
+    public void die() {
+        // Mushrooms are the only entity that doesn't explode!
+        EventPump.publish(EventType.Death, this);
+        EventPump.publish(EventType.Score, getScoreValue());
+
     }
 
     public void repair() {
@@ -64,6 +69,6 @@ public class Mushroom extends GameObject {
         updateAnimationName();
 
         EventPump.publish(EventType.Score, repairScore);
-        explode(ExplosionSize.Small);
+        explode();
     }
 }

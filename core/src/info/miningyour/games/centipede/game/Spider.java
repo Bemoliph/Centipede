@@ -7,7 +7,8 @@ public class Spider extends GameObject {
 
     private static int minGameLevel = 1;
     private static int maxSpiders = 1;
-    private static float spawnChance = 0.00075f;
+    //private static float spawnChance = 0.00075f;
+    private static float spawnChance = 1.0f;
 
     private static float minX = -18.0f;
     private static float maxX = 240.0f + 18.0f;
@@ -20,6 +21,8 @@ public class Spider extends GameObject {
     private static float speed = 96.0f;
     private boolean isMovingLeft;
 
+    private float shotDistance;
+
     public Spider(float x, float y) {
         super("spider", "spider", new Rectangle(x, y, 16.0f, 8.0f), 1, 300);
         setCenterX(x);
@@ -30,6 +33,10 @@ public class Spider extends GameObject {
 
         isMovingLeft = 0.0f < x;
         setDirection();
+
+        shotDistance = 0.0f;
+
+        explosionSize = ExplosionSize.Large;
     }
 
     public static boolean shouldSpawn(GameWorld world) {
@@ -68,7 +75,7 @@ public class Spider extends GameObject {
         setY(getY() + velocity.y * deltaTime);
 
         if (isOffScreenHorizontally()) {
-            die();
+            despawn();
         }
         else if (isOutOfRangeVertically()) {
             setDirection();
@@ -78,14 +85,27 @@ public class Spider extends GameObject {
     @Override
     public void onCollision(GameObject gameObj) {
         if (gameObj instanceof Mushroom) {
-            gameObj.die(); // eat the mushroom!
+            gameObj.despawn(); // eat the mushroom!
         }
     }
 
-    @Override
-    public void die() {
-        super.die();
+    public void setShotDistance(float shotDistance) {
+        this.shotDistance = shotDistance;
+    }
 
-        explode(ExplosionSize.Large);
+    @Override
+    public int getScoreValue() {
+        if (shotDistance <= 16.0f) {
+            new ScorePopup("score_nine_hundred", getX(), getY());
+            return scoreValue * 3;
+        }
+        else if (shotDistance <= 32.0f) {
+            new ScorePopup("score_six_hundred", getX(), getY());
+            return scoreValue * 2;
+        }
+        else {
+            new ScorePopup("score_three_hundred", getX(), getY());
+            return scoreValue * 1;
+        }
     }
 }

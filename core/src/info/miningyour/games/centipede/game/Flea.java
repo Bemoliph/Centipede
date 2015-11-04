@@ -21,6 +21,8 @@ public class Flea extends GameObject {
 
         this.world = world;
 
+        explosionSize = ExplosionSize.Large;
+
         velocity.set(0.0f, -128.0f);
     }
 
@@ -41,17 +43,10 @@ public class Flea extends GameObject {
         setY(getY() + velocity.y * deltaTime);
 
         if (getY() < minY) {
-            die();
+            despawn();
         }
         else if (shouldSpawnMushroom()) {
             world.spawnMushroom(getX(), getY());
         }
-    }
-
-    @Override
-    public void die() {
-        super.die();
-
-        explode(ExplosionSize.Large);
     }
 }

@@ -302,7 +302,7 @@ public class GameWorld implements EventListener {
     private void onFreeze() {
         isWorldFrozen = true;
 
-        bullet.die();
+        bullet.despawn();
 
         List<Mushroom> mushrooms = new LinkedList<Mushroom>();
         for (GameObject gameObj : gameObjects) {
@@ -322,7 +322,7 @@ public class GameWorld implements EventListener {
     }
 
     private void respawnPlayer() {
-        bullet.die();
+        bullet.despawn();
 
         if (0 < lives) {
             spawnPlayer();

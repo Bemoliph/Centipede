@@ -14,6 +14,9 @@ public class Scorpion extends GameObject {
 
     public Scorpion(float x, float y) {
         super("scorpion", "scorpion", new Rectangle(x, y, 16.0f, 8.0f), 1, 1000);
+
+        explosionSize = ExplosionSize.Large;
+
         setCenterX(x);
         setCenterY(y);
 
@@ -36,7 +39,7 @@ public class Scorpion extends GameObject {
         setX(getX() + velocity.x * deltaTime);
 
         if (getX() < minX || maxX < getX()) {
-            die();
+            despawn();
         }
     }
 
@@ -46,12 +49,5 @@ public class Scorpion extends GameObject {
             Mushroom mushroom = (Mushroom) gameObj;
             mushroom.setPoisoned(true);
         }
-    }
-
-    @Override
-    public void die() {
-        super.die();
-
-        explode(ExplosionSize.Large);
     }
 }

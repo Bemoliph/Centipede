@@ -127,7 +127,6 @@ public class CentipedeHead extends GameObject {
          * Adjust spawn window so they don't spawn "infinitely" instantly
          */
         setLastSpawned(TimeUtils.millis());
-        explode(ExplosionSize.Small);
         /*
          * TODO: Spawn mushroom here
          */

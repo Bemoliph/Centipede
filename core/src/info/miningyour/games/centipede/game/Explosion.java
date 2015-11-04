@@ -22,13 +22,13 @@ public class Explosion extends GameObject {
         elapsed += deltaTime * 2.0f;
 
         if (duration < elapsed) {
-            die();
+            despawn();
         }
     }
 
     @Override
-    public void die() {
-        super.die();
+    public void despawn() {
+        super.despawn();
         EventPump.publish(EventType.ExplosionEnd);
     }
 }

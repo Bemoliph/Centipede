@@ -22,6 +22,7 @@ public abstract class GameObject implements Animated {
     protected int currentHP;
     protected int maxHP;
     protected int scoreValue;
+    protected ExplosionSize explosionSize;
 
     public GameObject(String name, String spriteName, Rectangle boundingBox, int hp, int scoreValue) {
         this.name = name;
@@ -37,6 +38,7 @@ public abstract class GameObject implements Animated {
         this.currentHP = hp;
         this.maxHP = hp;
         this.scoreValue = scoreValue;
+        this.explosionSize = ExplosionSize.Small;
 
         EventPump.publish(EventType.Spawn, this);
     }
@@ -80,6 +82,7 @@ public abstract class GameObject implements Animated {
     }
 
     public void die() {
+        explode();
         EventPump.publish(EventType.Death, this);
         EventPump.publish(EventType.Score, getScoreValue());
     }
@@ -163,10 +166,10 @@ public abstract class GameObject implements Animated {
         return velocity;
     }
 
-    public void explode(ExplosionSize size) {
+    public void explode() {
         Explosion explosion;
 
-        switch (size) {
+        switch (explosionSize) {
             case Small:
                 explosion = new ExplosionSmall(0, 0);
                 break;

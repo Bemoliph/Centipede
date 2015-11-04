@@ -29,13 +29,16 @@ public class Player extends GameObject implements EventListener {
 
         oldBoundingBox = new Rectangle(boundingBox);
 
+        explosionSize = ExplosionSize.Large;
+
         EventPump.subscribe(EventType.Input, this);
     }
 
     private boolean canDamagePlayer(GameObject gameObj) {
         return !(gameObj instanceof Bullet)
                && !(gameObj instanceof Mushroom)
-               && !(gameObj instanceof Explosion);
+               && !(gameObj instanceof Explosion)
+               && !(gameObj instanceof ScorePopup);
     }
 
     @Override
@@ -66,8 +69,6 @@ public class Player extends GameObject implements EventListener {
     public void die() {
         super.die();
         EventPump.unsubscribe(EventType.Input, this);
-
-        explode(ExplosionSize.Large);
     }
 
     @Override
