@@ -1,6 +1,8 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
+import info.miningyour.games.centipede.events.EventPump;
+import info.miningyour.games.centipede.events.EventType;
 
 public class Mushroom extends GameObject {
 
@@ -13,6 +15,7 @@ public class Mushroom extends GameObject {
                                                    "poisoned_mushroom50",
                                                    "poisoned_mushroom75",
                                                    "poisoned_mushroom100"};
+    private static final Integer repairScore = 1;
 
     private boolean isPoisoned;
 
@@ -53,5 +56,14 @@ public class Mushroom extends GameObject {
         else {
             die();
         }
+    }
+
+    public void repair() {
+        setPoisoned(false);
+        currentHP = maxHP;
+        updateAnimationName();
+
+        EventPump.publish(EventType.Score, repairScore);
+        explode(ExplosionSize.Small);
     }
 }

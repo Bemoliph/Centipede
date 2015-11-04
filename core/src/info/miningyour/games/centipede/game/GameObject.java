@@ -67,6 +67,10 @@ public abstract class GameObject implements Animated {
         return 0 < currentHP;
     }
 
+    public boolean isDamaged() {
+        return currentHP < maxHP;
+    }
+
     public void damage() {
         currentHP--;
 
@@ -77,11 +81,11 @@ public abstract class GameObject implements Animated {
 
     public void die() {
         EventPump.publish(EventType.Death, this);
-        EventPump.publish(EventType.Score, this);
+        EventPump.publish(EventType.Score, getScoreValue());
     }
 
-    public boolean wasKilled() {
-        return !isAlive() && currentHP == 0;
+    public void despawn() {
+        EventPump.publish(EventType.Death, this);
     }
 
     @Override

@@ -2,6 +2,8 @@ package info.miningyour.games.centipede.utils;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import info.miningyour.games.centipede.events.EventPump;
+import info.miningyour.games.centipede.events.EventType;
 
 public class InputHandler implements InputProcessor {
 
@@ -39,9 +41,12 @@ public class InputHandler implements InputProcessor {
             case Keys.NUMPAD_5:
                 state.setShouldFire(true);
                 return true;
+            case Keys.F1:
+                EventPump.publish(EventType.Freeze);
+                return true;
+            default:
+                return false;
         }
-
-        return false;
     }
 
     @Override
@@ -62,9 +67,9 @@ public class InputHandler implements InputProcessor {
             case Keys.NUMPAD_5:
                 state.setShouldFire(false);
                 return true;
+            default:
+                return false;
         }
-
-        return false;
     }
 
     @Override

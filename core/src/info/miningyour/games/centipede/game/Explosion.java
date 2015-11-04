@@ -1,6 +1,8 @@
 package info.miningyour.games.centipede.game;
 
 import com.badlogic.gdx.math.Rectangle;
+import info.miningyour.games.centipede.events.EventPump;
+import info.miningyour.games.centipede.events.EventType;
 import info.miningyour.games.centipede.utils.AssetLoader;
 
 public class Explosion extends GameObject {
@@ -22,5 +24,11 @@ public class Explosion extends GameObject {
         if (duration < elapsed) {
             die();
         }
+    }
+
+    @Override
+    public void die() {
+        super.die();
+        EventPump.publish(EventType.ExplosionEnd);
     }
 }

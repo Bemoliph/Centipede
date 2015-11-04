@@ -7,6 +7,7 @@ import info.miningyour.games.centipede.events.EventPump;
 import info.miningyour.games.centipede.events.EventType;
 import info.miningyour.games.centipede.utils.AssetLoader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -16,6 +17,7 @@ public class GameWorld implements EventListener {
     private static final int mushroomSize = 8;
     private static final int minMushrooms = 50;
 
+    private boolean isWorldFrozen;
     private boolean isGameOver;
     private boolean hasCentipedeSpawned;
     private int level;
@@ -33,6 +35,7 @@ public class GameWorld implements EventListener {
     private List<GameObject> gameObjects;
     private Queue<GameObject> spawningObjects;
     private Queue<GameObject> dyingObjects;
+    private Iterator<Mushroom> damagedMushrooms;
 
     private Collider collider;
 
@@ -52,6 +55,8 @@ public class GameWorld implements EventListener {
         EventPump.subscribe(EventType.Spawn, this);
         EventPump.subscribe(EventType.Death, this);
         EventPump.subscribe(EventType.Score, this);
+        EventPump.subscribe(EventType.Freeze, this);
+        EventPump.subscribe(EventType.ExplosionEnd, this);
         EventPump.subscribe(EventType.GameOver, this);
     }
 
@@ -62,6 +67,7 @@ public class GameWorld implements EventListener {
     }
 
     public void newGame() {
+        isWorldFrozen = false;
         isGameOver = false;
         level = 1;
 
@@ -240,18 +246,27 @@ public class GameWorld implements EventListener {
     public void update(float deltaTime) {
         churnGameObjects();
 
-        for (GameObject gameObj : gameObjects) {
-            gameObj.update(deltaTime);
-        }
-
-        collider.update();
-        for (GameObject gameObj : gameObjects) {
-            if (!(gameObj instanceof Mushroom)) {
-                collider.collide(gameObj);
+        if (isWorldFrozen) {
+            for (GameObject gameObj : gameObjects) {
+                if (gameObj instanceof Explosion) {
+                    gameObj.update(deltaTime);
+                }
             }
         }
+        else {
+            for (GameObject gameObj : gameObjects) {
+                gameObj.update(deltaTime);
+            }
 
-        spawnQualifyingEntities();
+            collider.update();
+            for (GameObject gameObj : gameObjects) {
+                if (!(gameObj instanceof Mushroom)) {
+                    collider.collide(gameObj);
+                }
+            }
+
+            spawnQualifyingEntities();
+        }
 
         if (isGameOver) {
             onGameOver();
@@ -260,6 +275,50 @@ public class GameWorld implements EventListener {
 
     private void onSpawn(GameObject gameObj) {
         spawningObjects.add(gameObj);
+    }
+
+    private void onDeath(GameObject gameObj) {
+        dyingObjects.add(gameObj);
+
+        if (gameObj instanceof Player) {
+            EventPump.publish(EventType.Freeze);
+        }
+
+        if (gameObj instanceof CentipedeHead) {
+            tryNextLevel();
+        }
+    }
+
+    private void onScore(Integer delta) {
+        this.score += delta;
+
+        int newLives = score / lifeThreshold;
+        if (extraLives < newLives) {
+            extraLives = newLives;
+            modifyLives(+1);
+        }
+    }
+
+    private void onFreeze() {
+        isWorldFrozen = true;
+
+        bullet.die();
+
+        List<Mushroom> mushrooms = new LinkedList<Mushroom>();
+        for (GameObject gameObj : gameObjects) {
+            if (gameObj instanceof Mushroom && gameObj.isDamaged() && gameObj.isAlive()) {
+                mushrooms.add((Mushroom) gameObj);
+            }
+        }
+        damagedMushrooms = mushrooms.iterator();
+    }
+
+    private void despawnEnemies() {
+        for (GameObject gameObj : gameObjects) {
+            if (gameObj.isAlive() && !(gameObj instanceof Mushroom)) {
+                gameObj.despawn();
+            }
+        }
     }
 
     private void respawnPlayer() {
@@ -273,28 +332,19 @@ public class GameWorld implements EventListener {
         }
     }
 
-    private void onDeath(GameObject gameObj) {
-        dyingObjects.add(gameObj);
-
-        if (gameObj instanceof Player) {
-            respawnPlayer();
-        }
-
-        if (gameObj instanceof CentipedeHead) {
-            tryNextLevel();
-        }
-    }
-
-    private void onScore(GameObject gameObj) {
-        if (gameObj.wasKilled()) {
-            score += gameObj.getScoreValue();
-
-            int newLives = score / lifeThreshold;
-            if (extraLives < newLives) {
-                extraLives = newLives;
-                modifyLives(+1);
+    private void onExplosionEnd() {
+        if (isWorldFrozen) {
+            if (damagedMushrooms.hasNext()) {
+                Mushroom mushroom = damagedMushrooms.next();
+                mushroom.repair();
+            }
+            else {
+                isWorldFrozen = false;
+                despawnEnemies();
+                respawnPlayer();
             }
         }
+
     }
 
     private void onGameOver() {
@@ -314,7 +364,15 @@ public class GameWorld implements EventListener {
                 break;
 
             case Score:
-                onScore((GameObject) obj);
+                onScore((Integer) obj);
+                break;
+
+            case Freeze:
+                onFreeze();
+                break;
+
+            case ExplosionEnd:
+                onExplosionEnd();
                 break;
 
             case GameOver:
@@ -345,6 +403,8 @@ public class GameWorld implements EventListener {
         EventPump.unsubscribe(EventType.Spawn, this);
         EventPump.unsubscribe(EventType.Death, this);
         EventPump.unsubscribe(EventType.Score, this);
+        EventPump.unsubscribe(EventType.Freeze, this);
+        EventPump.unsubscribe(EventType.ExplosionEnd, this);
         EventPump.unsubscribe(EventType.GameOver, this);
     }
 }

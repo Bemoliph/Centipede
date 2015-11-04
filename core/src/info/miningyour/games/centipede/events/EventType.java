@@ -9,6 +9,8 @@ public enum EventType {
     Input,
     NewGame,
     NextLevel,
+    Freeze,
+    ExplosionEnd,
     GameOver,
     ScoreScreen,
     GameScreen,
