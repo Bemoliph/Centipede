@@ -7,9 +7,9 @@ import info.miningyour.games.centipede.utils.AssetLoader;
 public class CentipedeHead extends GameObject {
 
     private static int minGameLevel = 1;
-    private static int maxCentipedes = 12;
+    private static int maxCentipedes = 25;
     private static float spawnChance = 1;
-    private static long spawnInterval = 3000;
+    private static long spawnInterval = 50;
     private static long lastSpawned = TimeUtils.millis();
 
     private static float minX = 0.0f;
@@ -62,8 +62,6 @@ public class CentipedeHead extends GameObject {
     }
 
     private void startMovingVertically() {
-        setX(Math.round(getX() / cellSize) * cellSize);
-
         int row = Math.round(getY() / cellSize);
         if (row == 1 || row == 30) {
             verticalDirection *= -1;
@@ -103,6 +101,7 @@ public class CentipedeHead extends GameObject {
         setY(getY() + velocity.y * deltaTime);
 
         if (isTouchingLeftOrRight()) {
+            setX(Math.round(getX() / cellSize) * cellSize);
             startMovingVertically();
         }
         else if (isTouchingTopOrBottom() || isAtNextY()) {
@@ -112,8 +111,14 @@ public class CentipedeHead extends GameObject {
 
     @Override
     public void onCollision(GameObject gameObj) {
-        if (gameObj instanceof Mushroom || gameObj instanceof CentipedeHead) {
+        if (gameObj instanceof Mushroom) {
             if (!isMovingVertically()) {
+                startMovingVertically();
+            }
+        }
+        else if (gameObj instanceof CentipedeHead) {
+            CentipedeHead otherHead = (CentipedeHead) gameObj;
+            if (!isMovingVertically() && !otherHead.isMovingVertically()) {
                 startMovingVertically();
             }
         }
