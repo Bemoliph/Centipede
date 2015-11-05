@@ -8,7 +8,7 @@ import info.miningyour.games.centipede.utils.InputState;
 
 public class Player extends GameObject implements EventListener {
 
-    private static final boolean isInvincible = false;
+    private static boolean isInvincible = false;
 
     private static final float speed = 128;
 
@@ -32,6 +32,7 @@ public class Player extends GameObject implements EventListener {
         explosionSize = ExplosionSize.Large;
 
         EventPump.subscribe(EventType.Input, this);
+        EventPump.subscribe(EventType.Invulnerability, this);
     }
 
     private boolean canDamagePlayer(GameObject gameObj) {
@@ -69,6 +70,7 @@ public class Player extends GameObject implements EventListener {
     public void die() {
         super.die();
         EventPump.unsubscribe(EventType.Input, this);
+        EventPump.unsubscribe(EventType.Invulnerability, this);
     }
 
     @Override
@@ -91,6 +93,9 @@ public class Player extends GameObject implements EventListener {
             velocity.y -= state.getMoveDown() ? 1 : 0;
 
             velocity.setLength(speed);
+        }
+        else if (event == EventType.Invulnerability) {
+            isInvincible = !isInvincible;
         }
     }
 }

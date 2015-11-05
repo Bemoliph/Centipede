@@ -5,7 +5,6 @@ public enum EventType {
     Spawn,
     Death,
     Score,
-    Collision,
     Input,
     NewGame,
     NextLevel,
@@ -14,4 +13,5 @@ public enum EventType {
     GameOver,
     ScoreScreen,
     GameScreen,
+    Invulnerability
 }

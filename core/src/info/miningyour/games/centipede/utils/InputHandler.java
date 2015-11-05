@@ -42,7 +42,7 @@ public class InputHandler implements InputProcessor {
                 state.setShouldFire(true);
                 return true;
             case Keys.F1:
-                EventPump.publish(EventType.Freeze);
+                EventPump.publish(EventType.Invulnerability);
                 return true;
             default:
                 return false;
