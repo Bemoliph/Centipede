@@ -7,9 +7,9 @@ import info.miningyour.games.centipede.utils.AssetLoader;
 public class CentipedeHead extends GameObject {
 
     private static int minGameLevel = 1;
-    private static int maxCentipedes = 25;
+    private static int maxCentipedes = 12;
     private static float spawnChance = 1;
-    private static long spawnInterval = 50;
+    private static long spawnInterval = 3000;
     private static long lastSpawned = TimeUtils.millis();
 
     private static float minX = 0.0f;
@@ -95,13 +95,17 @@ public class CentipedeHead extends GameObject {
         velocity.set(horizontalDirection * speed, 0);
     }
 
+    private void snapToNearestCell() {
+        setX(Math.round(getX() / cellSize) * cellSize);
+    }
+
     @Override
     public void update(float deltaTime) {
         setX(getX() + velocity.x * deltaTime);
         setY(getY() + velocity.y * deltaTime);
 
         if (isTouchingLeftOrRight()) {
-            setX(Math.round(getX() / cellSize) * cellSize);
+            snapToNearestCell();
             startMovingVertically();
         }
         else if (isTouchingTopOrBottom() || isAtNextY()) {
@@ -113,6 +117,7 @@ public class CentipedeHead extends GameObject {
     public void onCollision(GameObject gameObj) {
         if (gameObj instanceof Mushroom) {
             if (!isMovingVertically()) {
+                snapToNearestCell();
                 startMovingVertically();
             }
         }
