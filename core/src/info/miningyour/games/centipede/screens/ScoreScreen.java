@@ -22,7 +22,7 @@ public class ScoreScreen implements Screen, EventListener {
     private boolean startingNewGame;
 
     private static final String leaderboard_highScores = "HIGH SCORES";
-    private static final String leaderboard_1coin1play = "1 COIN 1 PLAY";
+    private static final String leaderboard_freePlay = "FREE PLAY";
     private static final String leaderboard_bonus = "BONUS EVERY 12,000";
     private static final String leaderboard_copyright = "©1980 ATARI";
 
@@ -76,7 +76,7 @@ public class ScoreScreen implements Screen, EventListener {
             AssetLoader.font.draw(batcher, score, (camera.viewportWidth - score.length() * 8.0f) / 2.0f, 232.0f - 8.0f * i);
         }
 
-        AssetLoader.font.draw(batcher, leaderboard_1coin1play, (camera.viewportWidth - leaderboard_1coin1play.length() * 8.0f) / 2.0f, 160.0f);
+        AssetLoader.font.draw(batcher, leaderboard_freePlay, (camera.viewportWidth - leaderboard_freePlay.length() * 8.0f) / 2.0f, 160.0f);
         AssetLoader.font.draw(batcher, leaderboard_bonus, (camera.viewportWidth - leaderboard_bonus.length() * 8.0f) / 2.0f, 144.0f);
         AssetLoader.font.draw(batcher, leaderboard_copyright, (camera.viewportWidth - leaderboard_copyright.length() * 8.0f) / 2.0f, 8.0f);
     }
