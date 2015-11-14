@@ -9,7 +9,13 @@ import java.util.List;
 public class QuadTree {
 
     private static int MAX_ITEMS = 4;
-    private static int MAX_DEPTH = 3;
+    /*
+     * HACK: Depth limited to prevent Player from walking into "undetected"
+     * mushrooms on the edges of adjacent QuadTree cells, which results in
+     * jittery teleports once the Player moves far enough to check against the
+     * new cell. For some reason, "edge mushrooms" at this depth don't do it.
+     */
+    private static int MAX_DEPTH = 1;
 
     private Rectangle bounds;
     private int depth;

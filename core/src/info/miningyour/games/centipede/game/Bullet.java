@@ -27,7 +27,7 @@ public class Bullet extends GameObject implements EventListener {
         this.firePosition = new Vector2();
 
         this.maxY = 248.0f - getHeight();
-        this.velocity.y = 386.0f;
+        this.velocity.y = 256.0f;
 
         EventPump.subscribe(EventType.Input, this);
 
@@ -67,6 +67,8 @@ public class Bullet extends GameObject implements EventListener {
 
     @Override
     public void update(float deltaTime) {
+        super.update(deltaTime);
+
         if (shouldFire && !isFired()) {
             fire();
         }

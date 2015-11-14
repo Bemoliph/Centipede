@@ -19,6 +19,8 @@ public class Explosion extends GameObject {
 
     @Override
     public void update(float deltaTime) {
+        super.update(deltaTime);
+
         elapsed += deltaTime * 2.0f;
 
         if (duration < elapsed) {

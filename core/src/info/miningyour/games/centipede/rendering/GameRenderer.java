@@ -1,7 +1,6 @@
 package info.miningyour.games.centipede.rendering;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -86,9 +85,6 @@ public class GameRenderer implements EventListener {
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
 
         shapes.begin(ShapeType.Line);
-
-        shapes.setColor(Color.GREEN);
-        shapes.rect(0.0f, 8.0f, 240.0f, 48.0f);
 
         shapes.end();
 

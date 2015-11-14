@@ -1,11 +1,15 @@
 package info.miningyour.games.centipede.game;
 
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 import info.miningyour.games.centipede.events.EventListener;
 import info.miningyour.games.centipede.events.EventPump;
 import info.miningyour.games.centipede.events.EventType;
 import info.miningyour.games.centipede.utils.AssetLoader;
+import info.miningyour.games.centipede.utils.QuadTree;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -37,7 +41,9 @@ public class GameWorld implements EventListener {
     private Queue<GameObject> dyingObjects;
     private Iterator<Mushroom> damagedMushrooms;
 
-    private Collider collider;
+    private QuadTree collisionTree;
+    private List<GameObject> collisionCandidates;
+    private MinimumTranslationVector mtv;
 
     private Player player;
     private Bullet bullet;
@@ -50,7 +56,9 @@ public class GameWorld implements EventListener {
         spawningObjects = new LinkedList<GameObject>();
         dyingObjects = new LinkedList<GameObject>();
 
-        collider = new Collider(bounds);
+        collisionTree = new QuadTree(bounds);
+        collisionCandidates = new LinkedList<GameObject>();
+        mtv = new MinimumTranslationVector();
 
         EventPump.subscribe(EventType.Spawn, this);
         EventPump.subscribe(EventType.Death, this);
@@ -61,7 +69,7 @@ public class GameWorld implements EventListener {
     }
 
     private void spawnPlayer() {
-        player = new Player(16.0f, 0.0f);
+        player = new Player(16.0f, 16.0f);
         bullet = new Bullet(player);
         modifyLives(-1);
     }
@@ -82,7 +90,8 @@ public class GameWorld implements EventListener {
         spawningObjects.clear();
         dyingObjects.clear();
 
-        collider.clear();
+        collisionTree.clear();
+        collisionCandidates.clear();
 
         spawnPlayer();
         populateMushrooms(minMushrooms + AssetLoader.rng.nextInt(5));
@@ -228,7 +237,6 @@ public class GameWorld implements EventListener {
     private void churnGameObjects() {
         for (GameObject dyingObj : dyingObjects) {
             gameObjects.remove(dyingObj);
-            collider.remove(dyingObj);
             incSpawnCount(dyingObj.getName(), -1);
         }
 
@@ -236,11 +244,20 @@ public class GameWorld implements EventListener {
 
         for (GameObject spawningObj : spawningObjects) {
             gameObjects.add(spawningObj);
-            collider.add(spawningObj);
             incSpawnCount(spawningObj.getName(), +1);
         }
 
         spawningObjects.clear();
+    }
+
+    private void moveColliderOutOfCollidee(GameObject collider, GameObject collidee) {
+        Polygon gameygon = collider.getPolygon();
+        Polygon mushygon = collidee.getPolygon();
+
+        Intersector.overlapConvexPolygons(gameygon, mushygon, mtv);
+
+        collider.setX(collider.getX() + mtv.normal.x * mtv.depth);
+        collider.setY(collider.getY() + mtv.normal.y * mtv.depth);
     }
 
     public void update(float deltaTime) {
@@ -255,14 +272,29 @@ public class GameWorld implements EventListener {
         }
         else {
             for (GameObject gameObj : gameObjects) {
-                gameObj.update(deltaTime);
-            }
-
-            collider.update();
-            for (GameObject gameObj : gameObjects) {
-                if (!(gameObj instanceof Mushroom)) {
-                    collider.collide(gameObj);
+                // TODO: Come back after QuadTree.remove()
+                collisionTree.clear();
+                for (GameObject collisionObj : gameObjects) {
+                    collisionTree.insert(collisionObj);
                 }
+
+                gameObj.setX(gameObj.getX() + gameObj.velocity.x * deltaTime);
+                gameObj.setY(gameObj.getY() + gameObj.velocity.y * deltaTime);
+
+                collisionCandidates.clear();
+                collisionTree.retrieve(collisionCandidates, gameObj);
+
+                for (GameObject candidate : collisionCandidates) {
+                    if (gameObj.overlaps(candidate)) {
+                        gameObj.onCollision(candidate);
+
+                        if (gameObj instanceof Player && candidate instanceof Mushroom) {
+                            moveColliderOutOfCollidee(gameObj, candidate);
+                        }
+                    }
+                }
+
+                gameObj.update(deltaTime);
             }
 
             spawnQualifyingEntities();
@@ -284,7 +316,7 @@ public class GameWorld implements EventListener {
             EventPump.publish(EventType.Freeze);
         }
 
-        if (gameObj instanceof CentipedeHead) {
+        if (gameObj instanceof CentipedeHead && gameObj.wasKilled()) {
             tryNextLevel();
         }
     }

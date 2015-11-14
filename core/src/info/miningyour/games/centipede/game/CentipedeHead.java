@@ -101,8 +101,7 @@ public class CentipedeHead extends GameObject {
 
     @Override
     public void update(float deltaTime) {
-        setX(getX() + velocity.x * deltaTime);
-        setY(getY() + velocity.y * deltaTime);
+        super.update(deltaTime);
 
         if (isTouchingLeftOrRight()) {
             snapToNearestCell();

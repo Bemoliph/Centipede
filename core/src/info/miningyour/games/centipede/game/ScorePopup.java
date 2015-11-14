@@ -15,6 +15,8 @@ public class ScorePopup extends GameObject {
 
     @Override
     public void update(float deltaTime) {
+        super.update(deltaTime);
+
         elapsed += deltaTime;
 
         if (duration < elapsed) {

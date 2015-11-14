@@ -35,18 +35,15 @@ public class Flea extends GameObject {
     private boolean shouldSpawnMushroom() {
         return minY + 24.0f < getY()
                && AssetLoader.rng.nextFloat() < mushroomSpawnChance
-               && !world.isMushroomAt(getX(), getY());
+               && !world.isMushroomAt(getCenterX(), getCenterY());
     }
 
     @Override
     public void update(float deltaTime) {
-        setY(getY() + velocity.y * deltaTime);
+        super.update(deltaTime);
 
-        if (getY() < minY) {
-            despawn();
-        }
-        else if (shouldSpawnMushroom()) {
-            world.spawnMushroom(getX(), getY());
+        if (shouldSpawnMushroom()) {
+            world.spawnMushroom(getCenterX(), getCenterY());
         }
     }
 }

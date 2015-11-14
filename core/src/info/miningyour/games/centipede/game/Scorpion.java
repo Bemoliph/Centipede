@@ -9,9 +9,6 @@ public class Scorpion extends GameObject {
     private static int maxScorpions = 1;
     private static float spawnChance = 0.0075f;
 
-    private static float minX = -16.0f;
-    private static float maxX = 240.0f + 16.0f;
-
     public Scorpion(float x, float y) {
         super("scorpion", "scorpion", new Rectangle(x, y, 16.0f, 8.0f), 1, 1000);
 
@@ -32,15 +29,6 @@ public class Scorpion extends GameObject {
         return minGameLevel <= world.getLevel()
                && world.getSpawnCount("scorpion") < maxScorpions
                && AssetLoader.rng.nextFloat() < spawnChance;
-    }
-
-    @Override
-    public void update(float deltaTime) {
-        setX(getX() + velocity.x * deltaTime);
-
-        if (getX() < minX || maxX < getX()) {
-            despawn();
-        }
     }
 
     @Override
