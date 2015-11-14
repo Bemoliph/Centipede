@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import info.miningyour.games.centipede.events.EventListener;
 import info.miningyour.games.centipede.events.EventPump;
@@ -83,10 +82,6 @@ public class GameRenderer implements EventListener {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
-
-        shapes.begin(ShapeType.Line);
-
-        shapes.end();
 
         batcher.begin();
 
