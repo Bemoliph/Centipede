@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.TimeUtils;
 import info.miningyour.games.centipede.events.EventListener;
 import info.miningyour.games.centipede.events.EventPump;
 import info.miningyour.games.centipede.events.EventType;
@@ -134,7 +133,7 @@ public class GameWorld implements EventListener {
         return highScore;
     }
 
-    private int normalizeMushroomCoordinate(float a) {
+    public static int normalizeMushroomCoordinate(float a) {
         return (int) (a - a % mushroomSize);
     }
 
@@ -194,15 +193,14 @@ public class GameWorld implements EventListener {
     }
 
     private void spawnCentipede() {
-        int col = AssetLoader.rng.nextInt(2) == 0 ? -1 : 29;
+        int col = AssetLoader.rng.nextInt(2) == 0 ? 0 : 28;
         int row = AssetLoader.rng.nextInt((int) (bounds.height / mushroomSize) - 2) + 2;
 
-        float x = mushroomSize * (col + 0.5f);
-        float y = mushroomSize * (row + 0.5f);
+        float x = mushroomSize * (col);
+        float y = mushroomSize * (row);
 
-        int segments = 12 - (int) (getLevel() / 2);
+        int segments = !hasCentipedeSpawned ? 12 - (int) (getLevel() / 2) : 0;
         CentipedeHead centipede = new CentipedeHead(x, y, segments);
-        CentipedeHead.setLastSpawned(TimeUtils.millis());
         hasCentipedeSpawned = true;
     }
 
@@ -358,6 +356,7 @@ public class GameWorld implements EventListener {
 
         if (0 < lives) {
             spawnPlayer();
+            hasCentipedeSpawned = false;
         }
         else {
             EventPump.publish(EventType.GameOver);

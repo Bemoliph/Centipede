@@ -4,13 +4,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 import info.miningyour.games.centipede.utils.AssetLoader;
 
-public class CentipedeHead extends GameObject {
+public class CentipedeHead extends CentipedeSegment {
 
     private static int minGameLevel = 1;
     private static int maxCentipedes = 12;
     private static float spawnChance = 1;
     private static long spawnInterval = 3000;
-    private static long lastSpawned = TimeUtils.millis();
+    public static long lastSpawned = TimeUtils.millis();
 
     private static float minX = 0.0f;
     private static float maxX = 240.0f - 8.0f;
@@ -24,7 +24,7 @@ public class CentipedeHead extends GameObject {
     private float nextY;
 
     public CentipedeHead(float x, float y, int segments) {
-        super("centipede_head", "centipede_head", new Rectangle(x, y, 8.0f, 8.0f), 1, 100);
+        super("centipede_head", new Rectangle(x, y, 8.0f, 8.0f), 100, null, segments - 1);
 
         verticalDirection = -1;
         speed = 96;
@@ -36,7 +36,22 @@ public class CentipedeHead extends GameObject {
             horizontalDirection = -1;
         }
 
-        velocity.set(horizontalDirection * speed, verticalDirection * speed);
+        startMovingVertically();
+
+        lastSpawned = TimeUtils.millis();
+    }
+
+    public CentipedeHead(CentipedeSegment segment) {
+        this(segment.getX(), segment.getY(), 0);
+
+        trailingSegment = segment.getTrailingSegment();
+        if (trailingSegment != null) {
+            trailingSegment.leadingSegment = this;
+        }
+        oldPositions = segment.getOldPositions();
+
+        isMovingHorizontally = segment.isMovingHorizontally();
+        isMovingVertically = segment.isMovingVertically();
     }
 
     public static boolean shouldSpawn(GameWorld world) {
@@ -47,14 +62,6 @@ public class CentipedeHead extends GameObject {
                && totalSegments < maxCentipedes
                && spawnInterval < timeSinceLastSpawned
                && AssetLoader.rng.nextFloat() < spawnChance;
-    }
-
-    public static void setLastSpawned(long spawnTime) {
-        lastSpawned = spawnTime;
-    }
-
-    private boolean isMovingHorizontally() {
-        return velocity.x != 0;
     }
 
     private boolean isTouchingLeftOrRight() {
@@ -69,10 +76,6 @@ public class CentipedeHead extends GameObject {
 
         velocity.set(0, verticalDirection * speed);
         nextY = getY() + verticalDirection * cellSize;
-    }
-
-    private boolean isMovingVertically() {
-        return velocity.y != 0;
     }
 
     private boolean isTouchingTopOrBottom() {
@@ -100,6 +103,16 @@ public class CentipedeHead extends GameObject {
     }
 
     @Override
+    public boolean isMovingHorizontally() {
+        return velocity.x != 0;
+    }
+
+    @Override
+    public boolean isMovingVertically() {
+        return velocity.y != 0;
+    }
+
+    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
 
@@ -114,30 +127,18 @@ public class CentipedeHead extends GameObject {
 
     @Override
     public void onCollision(GameObject gameObj) {
-        if (gameObj instanceof Mushroom) {
-            if (!isMovingVertically()) {
-                snapToNearestCell();
+        if (!isMovingVertically()) {
+            if (gameObj instanceof Mushroom) {
+                //snapToNearestCell();
                 startMovingVertically();
             }
-        }
-        else if (gameObj instanceof CentipedeHead) {
-            CentipedeHead otherHead = (CentipedeHead) gameObj;
-            if (!isMovingVertically() && !otherHead.isMovingVertically()) {
-                startMovingVertically();
+            else if (gameObj instanceof CentipedeSegment) {
+                CentipedeSegment segment = (CentipedeSegment) gameObj;
+
+                if (!isInChain(segment) && !segment.isMovingVertically()) {
+                    startMovingVertically();
+                }
             }
         }
-    }
-
-    @Override
-    public void die() {
-        super.die();
-
-        /*
-         * Adjust spawn window so they don't spawn "infinitely" instantly
-         */
-        setLastSpawned(TimeUtils.millis());
-        /*
-         * TODO: Spawn mushroom here
-         */
     }
 }

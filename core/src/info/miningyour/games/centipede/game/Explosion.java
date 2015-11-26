@@ -21,7 +21,7 @@ public class Explosion extends GameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        elapsed += deltaTime * 2.0f;
+        elapsed += deltaTime * 2.5f;
 
         if (duration < elapsed) {
             despawn();

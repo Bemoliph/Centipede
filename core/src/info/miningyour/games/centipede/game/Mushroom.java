@@ -27,7 +27,7 @@ public class Mushroom extends GameObject {
     }
 
     private void updateAnimationName() {
-        int animIndex = currentHP - 1;
+        int animIndex = Math.max(0, currentHP - 1);
 
         if (isPoisoned()) {
             animationName = poisonedAnims[animIndex];
